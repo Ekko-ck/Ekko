@@ -1,3 +1,3 @@
 # Ekko
-Ekko is the toy project.
+Ekko is the toy project.  
 Members: leaf, sehoon
