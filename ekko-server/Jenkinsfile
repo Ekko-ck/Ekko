@@ -4,9 +4,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+            	echo 'Building..'
             	sh 'pwd'
             	sh 'docker ps -a'
-                echo 'Building..'
+                sh './gradlew clean build'
             }
         }
         stage('Test') {
