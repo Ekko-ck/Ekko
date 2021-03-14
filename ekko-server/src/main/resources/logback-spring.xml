@@ -25,7 +25,7 @@
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 	</appender>
-			
+
 	<!-- dev -->
 	<springProfile name="dev">
 		<logger name="net.openobject" level="debug" additivity="false">
