@@ -11,4 +11,4 @@ RUN mkdir /app
 
 COPY --from=GRADLE_BUILD /home/gradle/src/build/libs/ekko-server-0.0.1-SNAPSHOT.jar /app/
 
-ENTRYPOINT ["java", "-jar", "ekko-server-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/ekko-server-0.0.1-SNAPSHOT.jar"]
