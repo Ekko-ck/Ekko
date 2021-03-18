@@ -18,6 +18,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh 'docker container rm -f ekko-server'
                 sh 'docker run -d -e SPRING_PROFILES_ACTIVE=dev -e TZ=Asia/Seoul -p 8310:8310 --name ekko-server app/ekko-server'
             }
         }
