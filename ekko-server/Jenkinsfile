@@ -7,7 +7,8 @@ pipeline {
             	echo 'Building..'
             	sh 'pwd'
             	sh 'docker ps -a'
-                sh 'docker build . -t app/ekko-server -f ekko-server/Dockerfile'
+            	sh 'cd ekko-server'
+                sh 'docker build -t app/ekko-server .'
             }
         }
         stage('Test') {
