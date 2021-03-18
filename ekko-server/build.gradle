@@ -45,3 +45,15 @@ asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
 }
+
+jar {
+    baseName = "ekko-server"
+    version = "0.0.1-SNAPSHOT"
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
