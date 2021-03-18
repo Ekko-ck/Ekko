@@ -1,5 +1,5 @@
 FROM gradle:jdk11-openj9 AS GRADLE_BUILD
-COPY src /home/gradle/src
+COPY ekko-server/src /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build --no-daemon 
 
