@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_FILE_PATH" value="/data/logs/ekko-server/" />
+	<property name="LOG_FILE_NAME" value="app" />
+	<property name="CHAR_SET" value="UTF-8" />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>${CHAR_SET}</charset>
+			<Pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss.SSS}] %c{1} %M\(\):%L - %m%n</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE_PATH}${LOG_FILE_NAME}.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<charset>${CHAR_SET}</charset>
+			<Pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss.SSS}] %c{1} %M\(\):%L - %m%n</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE_PATH}${LOG_FILE_NAME}_%d{yyyy-MM-dd}_%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- dev -->
+	<springProfile name="dev">
+		<logger name="net.openobject" level="debug" additivity="false">
+			<appender-ref ref="console" />
+		</logger>
+		<root level="debug">
+			<appender-ref ref="console" />
+		</root>
+	</springProfile>
+
+	<!-- prod -->
+	<springProfile name="prod">
+		<logger name="net.openobject" level="info" additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="file" />
+		</logger>
+		<root level="info">
+			<appender-ref ref="console" />
+			<appender-ref ref="file" />
+		</root>
+	</springProfile>
+</configuration>
