@@ -5,16 +5,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/sample")
 public class SampleController {
 	
-	//@RequestMapping(path="hell")
 	@GetMapping("/hello/{input}")
 	public String sayHello(@PathVariable String input) {
-		
-		System.out.print("hello");
-		
+		log.info("hello");
 		return input;
 	}
+    
 }
