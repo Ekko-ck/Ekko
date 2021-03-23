@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 sh 'docker container rm -f ekko-server'
-                sh 'docker run -d -e SPRING_PROFILES_ACTIVE=dev -e TZ=Asia/Seoul -p 8310:8310 --name ekko-server app/ekko-server'
+                sh 'docker run -d -e SPRING_PROFILES_ACTIVE=dev -e TZ=Asia/Seoul -p 8310:8310 -v /data/logs/ekko-server:/data/logs/ekko-server --name ekko-server app/ekko-server'
             }
         }
     }

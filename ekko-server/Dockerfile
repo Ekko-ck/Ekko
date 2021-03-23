@@ -1,7 +1,7 @@
 FROM gradle:jdk11-openj9 AS GRADLE_BUILD
 COPY ekko-server /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon 
+RUN gradle build --no-daemon --stacktrace
 
 FROM openjdk:11.0.10-slim
 

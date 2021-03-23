@@ -26,13 +26,25 @@
 		</rollingPolicy>
 	</appender>
 
-	<!-- dev -->
-	<springProfile name="dev">
+	<!-- local -->
+	<springProfile name="local">
 		<logger name="net.openobject" level="debug" additivity="false">
 			<appender-ref ref="console" />
 		</logger>
 		<root level="debug">
 			<appender-ref ref="console" />
+		</root>
+	</springProfile>
+	
+	<!-- dev -->
+	<springProfile name="dev">
+		<logger name="net.openobject" level="debug" additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="file" />
+		</logger>
+		<root level="debug">
+			<appender-ref ref="console" />
+			<appender-ref ref="file" />
 		</root>
 	</springProfile>
 
