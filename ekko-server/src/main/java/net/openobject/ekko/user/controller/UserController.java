@@ -1,7 +1,6 @@
 package net.openobject.ekko.user.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,11 +27,11 @@ import net.openobject.ekko.common.auth.payload.JwtResponse;
 import net.openobject.ekko.common.auth.payload.LoginRequest;
 import net.openobject.ekko.common.auth.payload.MessageResponse;
 import net.openobject.ekko.common.auth.payload.SignupRequest;
-import net.openobject.ekko.common.controller.BaseController;
 import net.openobject.ekko.common.exception.BizException;
 import net.openobject.ekko.common.response.ApiResponse;
 import net.openobject.ekko.common.security.jwt.JwtUtils;
 import net.openobject.ekko.common.security.service.UserDetailsImpl;
+import net.openobject.ekko.user.dto.RefreshtokenResponse;
 import net.openobject.ekko.user.dto.UserInfoRequest;
 import net.openobject.ekko.user.entity.User;
 import net.openobject.ekko.user.entity.UserERole;
@@ -52,7 +50,7 @@ import net.openobject.ekko.user.repository.UserRoleRepository;
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
-public class UserController extends BaseController{
+public class UserController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -166,18 +164,18 @@ public class UserController extends BaseController{
 	 * @throws IOException 
 	 */
 	@PostMapping(value = "/auth/refreshtoken")
-	public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+	public ApiResponse<RefreshtokenResponse> refreshToken(HttpServletRequest request) {
 		String headerAuth = request.getHeader("Authorization");
+		String newToken = "";
+		String newRefreshToken = "";
+		
 		if (StringUtils.isNotEmpty(headerAuth) && headerAuth.startsWith("Bearer ")) {
 			String refreshToken = headerAuth.substring(7, headerAuth.length());
 			try {
 				if(jwtUtils.validateJwtToken(refreshToken)) {
-					String newToken = jwtUtils.generateJwtToken(refreshToken);
-					String newRefreshToken = jwtUtils.generateRefreshJwtToken(newToken);
-					HashMap<String, String> tokens = new HashMap<String, String>();
-					tokens.put("token", newToken);
-					tokens.put("refreshToken", newRefreshToken);
-					return getResponseEntity(tokens);
+					newToken = jwtUtils.generateJwtToken(refreshToken);
+					newRefreshToken = jwtUtils.generateRefreshJwtToken(newToken);
+					
 				} else {
 					throw new BizException("refreshtokenE001", "토큰이 유효하지 않습니다");
 				}
@@ -185,9 +183,9 @@ public class UserController extends BaseController{
 				log.error("refreshToken Exception", e);
 			}
 			
-		} 
+		}
 		
-		return null;
+		return ApiResponse.ok(new RefreshtokenResponse(newToken, newRefreshToken));
 	}
 	
 	@PostMapping("/updateUser")
