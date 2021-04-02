@@ -7,7 +7,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import net.openobject.ekko.user.entity.UserRole;
 
+/**
+ * SignupRequest.java
+ * <br/>
+ * 사용자 등록 VO
+ * 
+ * @author : SeHoon
+ * @version : 1.0
+ */
 @Data
 public class SignupRequest {
     @NotBlank
@@ -19,7 +28,9 @@ public class SignupRequest {
     @Email
     private String email;
     
-    private Set<String> role;
+    private Set<UserRole> role;
+    
+    private Set<String> strRole;
     
     @NotBlank
     @Size(min = 6, max = 40)

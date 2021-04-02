@@ -4,6 +4,14 @@ import java.util.List;
 
 import lombok.Data;
 
+/**
+ * JwtResponse.java
+ * <br/>
+ * JWT 응답 VO
+ * 
+ * @author : SeHoon
+ * @version : 1.0
+ */
 @Data
 public class JwtResponse {
 	private String type = "Bearer";

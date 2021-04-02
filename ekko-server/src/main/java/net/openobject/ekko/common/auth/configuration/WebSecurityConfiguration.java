@@ -18,6 +18,14 @@ import net.openobject.ekko.common.security.jwt.AuthEntryPointJwt;
 import net.openobject.ekko.common.security.jwt.AuthTokenFilter;
 import net.openobject.ekko.common.security.service.UserDetailsServiceImpl;
 
+/**
+ * WebSecurityConfiguration.java
+ * <br/>
+ * web시큐리티. 인중권한 체크 URL패턴 및 패스워드 암호화 설정
+ * 
+ * @author : SeHoon
+ * @version : 1.0
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

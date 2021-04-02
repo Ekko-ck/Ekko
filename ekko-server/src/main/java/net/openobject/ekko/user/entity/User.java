@@ -15,10 +15,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Table(name = "TB_USER", uniqueConstraints = { @UniqueConstraint(columnNames = "USER_ID") })
 public class User implements Cloneable {
 	@Id
@@ -42,15 +48,21 @@ public class User implements Cloneable {
 	@JoinTable(name = "TB_USER_ROLES", joinColumns = @JoinColumn(name = "USER_SEQ"), inverseJoinColumns = @JoinColumn(name = "RULE_SEQ"))
 	private Set<UserRole> roles = new HashSet<>();
 
-	public User() {
-	}
-
 	public User(String userId, String userPw, String userNm, String userEmailAddr) {
 		super();
 		this.userId = userId;
 		this.userPw = userPw;
 		this.userNm = userNm;
 		this.userEmailAddr = userEmailAddr;
+	}
+	
+	public User(String userId, String userPw, String userNm, String userEmailAddr, Set<UserRole> roles) {
+		super();
+		this.userId = userId;
+		this.userPw = userPw;
+		this.userNm = userNm;
+		this.userEmailAddr = userEmailAddr;
+		this.roles = roles;
 	}
 	
 	public User id(Long id) {

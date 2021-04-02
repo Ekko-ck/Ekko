@@ -36,8 +36,7 @@ import net.openobject.ekko.user.dto.UserInfoRequest;
 import net.openobject.ekko.user.entity.User;
 import net.openobject.ekko.user.entity.UserERole;
 import net.openobject.ekko.user.entity.UserRole;
-import net.openobject.ekko.user.repository.UserRepository;
-import net.openobject.ekko.user.repository.UserRoleRepository;
+import net.openobject.ekko.user.service.UserService;
 
 /**
  * UserController.java
@@ -55,11 +54,8 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private UserRoleRepository userRoleRepository;
-
+	private UserService userService;
+	
 	@Autowired
 	private PasswordEncoder encoder;
 
@@ -78,17 +74,23 @@ public class UserController {
 	@PostMapping("/auth/signin")
 	public ApiResponse<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {
 
+		/** 1. ID/PW 인증 **/
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
+		/** 2. 토큰 생성 **/
+		// 2-1 JWT토큰생성
 		String token = jwtUtils.generateJwtToken(authentication);
+		// 2-2 JWT 리프레시 토큰생성 
 		String refreshToken = jwtUtils.generateRefreshJwtToken(token);
+		
 		//토큰을 발행하고 같은 생명주기의 세션을 생성
 		HttpSession session = request.getSession();
 		session.setAttribute("userId", loginRequest.getUserId());
 		session.setMaxInactiveInterval(jwtExpirationMs/1000);
 		
+		/** 3. 사용자 상세정보 조회 **/
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
@@ -112,45 +114,43 @@ public class UserController {
 	 */
 	@PostMapping("/auth/signup")
 	public ApiResponse<MessageResponse> registerUser(@RequestBody SignupRequest signUpReq) throws BizException {
-		if (userRepository.existsByUserId(signUpReq.getUserId())) {
+		
+		/** 1. 사용자 ID 존재여부 체크 **/
+		if (userService.existsByUserId(signUpReq.getUserId())) {
 			throw new BizException("signup001", "UserId : '"+signUpReq.getUserId()+"' 는 이미 존재합니다.");
 		}
 
-		// Create new user's account
-		User user = new User(signUpReq.getUserId(), encoder.encode(signUpReq.getPassword()), "testname", signUpReq.getEmail());
-
-		Set<String> strRoles = signUpReq.getRole();
-		Set<UserRole> boRoles = new HashSet<>();
+		/** 2. 사용자 권한정보 SET **/
+		Set<String> strRoles = signUpReq.getStrRole();
+		Set<UserRole> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			UserRole userRole = userRoleRepository.findByName(UserERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			boRoles.add(userRole);
+			UserRole userRole = userService.findByName(UserERole.ROLE_USER);
+			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 				case "admin":
-					UserRole adminRole = userRoleRepository.findByName(UserERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					boRoles.add(adminRole);
+					UserRole adminRole = userService.findByName(UserERole.ROLE_ADMIN);
+					roles.add(adminRole);
 
 					break;
 				case "mod":
-					UserRole modRole = userRoleRepository.findByName(UserERole.ROLE_MANAGER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					boRoles.add(modRole);
+					UserRole modRole = userService.findByName(UserERole.ROLE_MANAGER);
+					roles.add(modRole);
 
 					break;
 				default:
-					UserRole userRole = userRoleRepository.findByName(UserERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					boRoles.add(userRole);
+					UserRole userRole = userService.findByName(UserERole.ROLE_USER);
+					roles.add(userRole);
 				}
 			});
 		}
 
-		user.setRoles(boRoles);
-		userRepository.save(user);
+		signUpReq.setRole(roles);
+		
+		/** 3. 사용자 저장 **/
+		userService.registerUser(signUpReq);
 
 		return ApiResponse.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -165,6 +165,8 @@ public class UserController {
 	 */
 	@PostMapping(value = "/auth/refreshtoken")
 	public ApiResponse<RefreshtokenResponse> refreshToken(HttpServletRequest request) {
+		
+		// 인증 헤더정보 GET
 		String headerAuth = request.getHeader("Authorization");
 		String newToken = "";
 		String newRefreshToken = "";
@@ -182,7 +184,6 @@ public class UserController {
 			} catch (Exception e) {
 				log.error("refreshToken Exception", e);
 			}
-			
 		}
 		
 		return ApiResponse.ok(new RefreshtokenResponse(newToken, newRefreshToken));
@@ -190,7 +191,7 @@ public class UserController {
 	
 	@PostMapping("/updateUser")
 	public ApiResponse<JwtResponse> updateUser(HttpServletRequest request, @RequestBody UserInfoRequest userInfoReq) throws BizException, CloneNotSupportedException {
-		log.debug("updateUser start");
+		
 		String userPw = userInfoReq.getCurrentPassword();
 		User userInfo = jwtUtils.getLoginUserEntity();
 
@@ -219,12 +220,12 @@ public class UserController {
 		}
 		
 		// 사용자정보 저장
-		userRepository.save(user);
+		userService.registerUser(user);
 		
 		// 토큰 재발행
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(userInfo.getUserId(), userPw));
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfo.getUserId(), userPw));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 		String token = jwtUtils.generateJwtToken(authentication);
 		String refreshToken = jwtUtils.generateRefreshJwtToken(token);
 		
