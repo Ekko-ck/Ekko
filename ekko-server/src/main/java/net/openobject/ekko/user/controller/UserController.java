@@ -16,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,7 @@ import net.openobject.ekko.common.security.jwt.JwtUtils;
 import net.openobject.ekko.common.security.service.UserDetailsImpl;
 import net.openobject.ekko.user.dto.RefreshtokenResponse;
 import net.openobject.ekko.user.dto.UserInfoRequest;
-import net.openobject.ekko.user.entity.User;
+import net.openobject.ekko.user.dto.UserInfoResponse;
 import net.openobject.ekko.user.entity.UserERole;
 import net.openobject.ekko.user.entity.UserRole;
 import net.openobject.ekko.user.service.UserService;
@@ -56,9 +55,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private PasswordEncoder encoder;
-
 	@Autowired
 	private JwtUtils jwtUtils;
 	
@@ -189,41 +185,21 @@ public class UserController {
 		return ApiResponse.ok(new RefreshtokenResponse(newToken, newRefreshToken));
 	}
 	
-	@PostMapping("/updateUser")
-	public ApiResponse<JwtResponse> updateUser(HttpServletRequest request, @RequestBody UserInfoRequest userInfoReq) throws BizException, CloneNotSupportedException {
+	@PostMapping("/auth/modifyUser")
+	public ApiResponse<JwtResponse> modifyUser(HttpServletRequest request, @RequestBody UserInfoRequest userInfoReq) throws BizException, CloneNotSupportedException {
 		
-		String userPw = userInfoReq.getCurrentPassword();
-		User userInfo = jwtUtils.getLoginUserEntity();
-
+		String newPassword = userInfoReq.getNewPassword();
 		try {
 			// 현재 비밀번호 체크
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfo.getUserId(), userInfoReq.getCurrentPassword()));
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfoReq.getUserId(), userInfoReq.getCurrentPassword()));
 		} catch (Exception e) {
-			throw new BizException("BackOfficeUserE001", "현재 비밀번호가 정확하지 않습니다");
+			throw new BizException("UserE001", "현재 비밀번호가 정확하지 않습니다");
 		}
 
-		User user = (User) userInfo.clone();
-		// 신규 비밀번호 체크 및 set
-		if (StringUtils.isNotEmpty(userInfoReq.getNewPassword())) {
-			user.setUserPw(encoder.encode(userInfoReq.getNewPassword()));
-			userPw = userInfoReq.getNewPassword();
-		}
-
-		// 사용자 이름 체크 및 set
-		if(StringUtils.isNotEmpty(userInfoReq.getUserNm())) {
-			user.setUserNm(userInfoReq.getUserNm());
-		}
-		
-		// 이메일 체크 및 set
-		if(StringUtils.isNotEmpty(userInfoReq.getEmail())) {
-			user.setUserEmailAddr(userInfoReq.getEmail());
-		}
-		
-		// 사용자정보 저장
-		userService.registerUser(user);
+		UserInfoResponse userInfoRes = userService.modifyUser(userInfoReq);
 		
 		// 토큰 재발행
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfo.getUserId(), userPw));
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfoRes.getUserId(), newPassword));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		String token = jwtUtils.generateJwtToken(authentication);
@@ -235,10 +211,10 @@ public class UserController {
 				.collect(Collectors.toList());
 
 		return ApiResponse.ok(new JwtResponse(
-				userDetails.getUserSeq(), 
-				userDetails.getUsername(), 
-				userDetails.getUserRealName(),
-				userDetails.getUserEmailAddr(), 
+				userInfoRes.getUserSeq(), 
+				userInfoRes.getUserId(), 
+				userInfoRes.getUserNm(),
+				userInfoRes.getUserEmailAddr(), 
 				 roles,
 				 token, refreshToken));
 	}

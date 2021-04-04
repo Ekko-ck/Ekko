@@ -16,17 +16,17 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.openobject.ekko.common.entity.BaseEntity;
+import net.openobject.ekko.user.dto.UserInfoRequest;
 
-@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Table(name = "TB_USER", uniqueConstraints = { @UniqueConstraint(columnNames = "USER_ID") })
-public class User implements Cloneable {
+public class User extends BaseEntity implements Cloneable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_SEQ")
@@ -90,6 +90,13 @@ public class User implements Cloneable {
 		return this;
 	}
 
+	public User update(UserInfoRequest formDto) {
+		this.userNm = formDto.getUserNm();
+		this.userPw = formDto.getNewPassword();
+		this.userEmailAddr = formDto.getUserEmailAddr();
+		return this;
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
