@@ -23,13 +23,13 @@ import net.openobject.ekko.user.entity.User;
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-	@Value("${ekkoserver.app.jwtSecret}")
+	@Value("${ekkoserver.app.jwt-secret}")
 	private String jwtSecret;
 
-	@Value("${ekkoserver.app.jwtExpirationMs}")
+	@Value("${ekkoserver.app.jwt-expiration-ms}")
 	private int jwtExpirationMs;
 	
-	@Value("${ekkoserver.app.rjwtExpirationMs}")
+	@Value("${ekkoserver.app.rjwt-expiration-ms}")
 	private int rjwtExpirationMs;
 	
 	public String generateJwtToken(Authentication authentication) {

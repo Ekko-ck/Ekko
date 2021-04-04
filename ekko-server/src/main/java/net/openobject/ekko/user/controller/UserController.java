@@ -58,7 +58,7 @@ public class UserController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
-	@Value("${ekkoserver.app.jwtExpirationMs}") //AccessToken 유효시간 30분
+	@Value("${ekkoserver.app.jwt-expiration-ms}") //AccessToken 유효시간 30분
 	private int jwtExpirationMs;
 	/**
 	 * authenticateUser(/api/auth/signin)
