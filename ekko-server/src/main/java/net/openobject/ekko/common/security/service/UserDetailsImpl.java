@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import net.openobject.ekko.common.auth.payload.JwtUserResponse;
 import net.openobject.ekko.user.entity.User;
 
 public class UserDetailsImpl implements UserDetails {
@@ -43,6 +44,13 @@ public class UserDetailsImpl implements UserDetails {
 				user.getUserPw(), user.getUserNm(), authorities);
 	}
 
+	public static UserDetailsImpl build(JwtUserResponse user) {
+		List<GrantedAuthority> authorities = user.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
+
+		return new UserDetailsImpl(user.getUserSeq(), user.getUserId(), user.getUserEmailAddr(),
+				user.getUserPw(), user.getUserNm(), authorities);
+	}
 	public Long getUserSeq() {
 		return userSeq;
 	}

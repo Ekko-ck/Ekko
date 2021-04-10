@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 import net.openobject.ekko.common.auth.payload.JwtResponse;
+import net.openobject.ekko.common.auth.payload.JwtUserResponse;
 import net.openobject.ekko.common.auth.payload.LoginRequest;
 import net.openobject.ekko.common.auth.payload.MessageResponse;
 import net.openobject.ekko.common.auth.payload.SignupRequest;
@@ -217,6 +218,22 @@ public class UserController {
 				userInfoRes.getUserEmailAddr(), 
 				 roles,
 				 token, refreshToken));
+	}
+	
+	@PostMapping("/logincheck")
+	public ApiResponse<JwtResponse> logincheck(HttpServletRequest request) throws BizException, CloneNotSupportedException {
+		
+		JwtUserResponse user = jwtUtils.getLoginUserEntity();
+		String headerAuth = request.getHeader("Authorization");
+		headerAuth = headerAuth.substring(7, headerAuth.length());
+	
+		return ApiResponse.ok(new JwtResponse(
+				user.getUserSeq(), 
+				user.getUserId(), 
+				user.getUserNm(),
+				user.getUserEmailAddr(), 
+				 null,
+				 headerAuth, ""));
 	}
 	
 }

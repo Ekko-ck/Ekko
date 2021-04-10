@@ -1,10 +1,13 @@
 package net.openobject.ekko.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.openobject.ekko.common.auth.payload.JwtUserResponse;
 import net.openobject.ekko.common.auth.payload.SignupRequest;
 import net.openobject.ekko.user.builder.UserBuilder;
 import net.openobject.ekko.user.dto.UserInfoRequest;
@@ -69,4 +72,11 @@ public class UserService {
 		return userBuilder.buildDto(userEintity);
 	}
 	
+	@Transactional(readOnly = true)
+	@Cacheable(key = "#userId", value = "UserDetails")
+	public JwtUserResponse findByUserId(String userId) {
+		User userEintity =  userRepository.findByUserId(userId).orElseThrow(() -> new UsernameNotFoundException("User Not Found with userId: " + userId));
+		
+		return userBuilder.buildJwtUserDto(userEintity);
+	}
 }
