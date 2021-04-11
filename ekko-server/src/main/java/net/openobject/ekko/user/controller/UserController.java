@@ -62,7 +62,7 @@ public class UserController {
 	@Value("${ekkoserver.app.jwt-expiration-ms}") //AccessToken 유효시간 30분
 	private int jwtExpirationMs;
 	/**
-	 * authenticateUser(/api/auth/signin)
+	 * authenticateUser(/api/user/auth/signin)
 	 * <br/>
 	 * 로그인
 	 * 
@@ -103,7 +103,7 @@ public class UserController {
 	}
 
 	/**
-	 * registerUser(/api/auth/signup) <br/>
+	 * registerUser(/api/user/auth/signup) <br/>
 	 * 사용자등록
 	 * 
 	 * @author : SeHoon
@@ -153,7 +153,7 @@ public class UserController {
 	}
 	
 	/**
-	 * refreshToken(/api/auth/refreshtoken)
+	 * refreshToken(/api/user/auth/refreshtoken)
 	 * 
 	 * 사용자 토큰 재발급 
 	 * 
@@ -186,6 +186,14 @@ public class UserController {
 		return ApiResponse.ok(new RefreshtokenResponse(newToken, newRefreshToken));
 	}
 	
+	/**
+	 * refreshToken(/api/user/auth/modifyUser)
+	 * 
+	 * 사용자 정보 변경 
+	 * 
+	 * @author SeHoon
+	 * @throws IOException 
+	 */
 	@PostMapping("/auth/modifyUser")
 	public ApiResponse<JwtResponse> modifyUser(HttpServletRequest request, @RequestBody UserInfoRequest userInfoReq) throws BizException, CloneNotSupportedException {
 		
@@ -220,6 +228,14 @@ public class UserController {
 				 token, refreshToken));
 	}
 	
+	/**
+	 * refreshToken(/api/user/refreshtoken)
+	 * 
+	 * 로그인체크
+	 * 
+	 * @author SeHoon
+	 * @throws IOException 
+	 */
 	@PostMapping("/logincheck")
 	public ApiResponse<JwtResponse> logincheck(HttpServletRequest request) throws BizException, CloneNotSupportedException {
 		

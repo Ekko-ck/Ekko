@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * RedisConfig.java
  * <br/>
- * redis 설정
+ * Redis 설정. Redis연결정보 설정함 
  * 
  * @author  : SeHoon
  * @version : 1.0

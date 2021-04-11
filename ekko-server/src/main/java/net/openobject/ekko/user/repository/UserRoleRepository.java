@@ -10,7 +10,11 @@ import net.openobject.ekko.user.entity.UserRole;
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	
 	/**
-	* 이름으로 사용자정보 조회 
-	*/
+	 * findByName <br/>
+	 * 권한명으로 사용자권한정보 조회
+	 * 
+	 * @author : SeHoon
+	 * @version : 1.0
+	 */
 	UserRole findByName(UserERole name);
 }

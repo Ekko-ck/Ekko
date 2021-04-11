@@ -21,6 +21,13 @@ import lombok.NoArgsConstructor;
 import net.openobject.ekko.common.entity.BaseEntity;
 import net.openobject.ekko.user.dto.UserInfoRequest;
 
+/**
+ * User.java <br/>
+ * 사용자 테이블 도메인
+ * 
+ * @author : SeHoon
+ * @version : 1.0
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
