@@ -33,7 +33,6 @@ import net.openobject.ekko.common.security.jwt.JwtUtils;
 import net.openobject.ekko.common.security.service.UserDetailsImpl;
 import net.openobject.ekko.user.dto.RefreshtokenResponse;
 import net.openobject.ekko.user.dto.UserInfoRequest;
-import net.openobject.ekko.user.dto.UserInfoResponse;
 import net.openobject.ekko.user.entity.UserERole;
 import net.openobject.ekko.user.entity.UserRole;
 import net.openobject.ekko.user.service.UserService;
@@ -205,7 +204,7 @@ public class UserController {
 			throw new BizException("UserE001", "현재 비밀번호가 정확하지 않습니다");
 		}
 
-		UserInfoResponse userInfoRes = userService.modifyUser(userInfoReq);
+		JwtUserResponse userInfoRes = userService.modifyUser(userInfoReq);
 		
 		// 토큰 재발행
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfoRes.getUserId(), newPassword));
@@ -231,7 +230,7 @@ public class UserController {
 	/**
 	 * refreshToken(/api/user/refreshtoken)
 	 * 
-	 * 로그인체크
+	 * 로그인체크 테스트
 	 * 
 	 * @author SeHoon
 	 * @throws IOException 
