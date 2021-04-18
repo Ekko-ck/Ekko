@@ -92,13 +92,12 @@ public class UserController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ApiResponse.ok(new JwtResponse(
-				userDetails.getUserSeq(), 
-				userDetails.getUsername(), 
-				userDetails.getUserRealName(),
-				userDetails.getUserEmailAddr(), 
-				 roles,
-				 token, refreshToken));
+		/** 4. 응답값 set **/
+		JwtResponse result = new JwtResponse(userDetails.getUserSeq(), userDetails.getUsername(), 
+				userDetails.getUserRealName(),userDetails.getUserEmailAddr(), roles,
+				 token, refreshToken);
+		
+		return ApiResponse.ok(result);
 	}
 
 	/**
@@ -182,7 +181,10 @@ public class UserController {
 			}
 		}
 		
-		return ApiResponse.ok(new RefreshtokenResponse(newToken, newRefreshToken));
+		/** 응답값 set **/
+		RefreshtokenResponse result = new RefreshtokenResponse(newToken, newRefreshToken);
+		
+		return ApiResponse.ok(result);
 	}
 	
 	/**
@@ -198,15 +200,16 @@ public class UserController {
 		
 		String newPassword = userInfoReq.getNewPassword();
 		try {
-			// 현재 비밀번호 체크
+			/** 1. 현재 비밀번호 체크 **/
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfoReq.getUserId(), userInfoReq.getCurrentPassword()));
 		} catch (Exception e) {
 			throw new BizException("UserE001", "현재 비밀번호가 정확하지 않습니다");
 		}
 
+		/** 2. 사용자정보 변경 **/
 		JwtUserResponse userInfoRes = userService.modifyUser(userInfoReq);
 		
-		// 토큰 재발행
+		/** 3. JWT토큰 재생성 **/
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfoRes.getUserId(), newPassword));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
@@ -218,13 +221,12 @@ public class UserController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ApiResponse.ok(new JwtResponse(
-				userInfoRes.getUserSeq(), 
-				userInfoRes.getUserId(), 
-				userInfoRes.getUserNm(),
-				userInfoRes.getUserEmailAddr(), 
-				 roles,
-				 token, refreshToken));
+		/** 4. 응답값 set **/
+		JwtResponse result = new JwtResponse(userInfoRes.getUserSeq(), userInfoRes.getUserId(), 
+				userInfoRes.getUserNm(), userInfoRes.getUserEmailAddr(), 
+				 roles, token, refreshToken);
+		
+		return ApiResponse.ok(result);
 	}
 	
 	/**
