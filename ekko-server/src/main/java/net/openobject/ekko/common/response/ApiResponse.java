@@ -60,6 +60,10 @@ public class ApiResponse<T> {
 		return new ApiResponse<T>(ResultCode.SERVER_ERROR);
 	}
 	
+	public static <T> ApiResponse<T> fail(ResultCode resultCode, T data) {
+		return new ApiResponse<T>(resultCode, data);
+	}
+	
 	public static <T> ApiResponse<T> fail(T data) {
 		return new ApiResponse<T>(ResultCode.SERVER_ERROR, data);
 	}

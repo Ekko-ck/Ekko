@@ -29,6 +29,7 @@ import net.openobject.ekko.common.auth.payload.MessageResponse;
 import net.openobject.ekko.common.auth.payload.SignupRequest;
 import net.openobject.ekko.common.exception.BizException;
 import net.openobject.ekko.common.response.ApiResponse;
+import net.openobject.ekko.common.response.ResultCode;
 import net.openobject.ekko.common.security.jwt.JwtUtils;
 import net.openobject.ekko.common.security.service.UserDetailsImpl;
 import net.openobject.ekko.user.dto.RefreshtokenResponse;
@@ -112,7 +113,7 @@ public class UserController {
 		
 		/** 1. 사용자 ID 존재여부 체크 **/
 		if (userService.existsByUserId(signUpReq.getUserId())) {
-			throw new BizException("signup001", "UserId : '"+signUpReq.getUserId()+"' 는 이미 존재합니다.");
+			throw new BizException(ResultCode.SERVER_ERROR, "UserId : '"+signUpReq.getUserId()+"' 는 이미 존재합니다.");
 		}
 
 		/** 2. 사용자 권한정보 SET **/
@@ -174,7 +175,7 @@ public class UserController {
 					newRefreshToken = jwtUtils.generateRefreshJwtToken(newToken);
 					
 				} else {
-					throw new BizException("refreshtokenE001", "토큰이 유효하지 않습니다");
+					throw new BizException(ResultCode.SERVER_ERROR, "토큰이 유효하지 않습니다");
 				}
 			} catch (Exception e) {
 				log.error("refreshToken Exception", e);
@@ -203,7 +204,8 @@ public class UserController {
 			/** 1. 현재 비밀번호 체크 **/
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfoReq.getUserId(), userInfoReq.getCurrentPassword()));
 		} catch (Exception e) {
-			throw new BizException("UserE001", "현재 비밀번호가 정확하지 않습니다");
+			throw new BizException(ResultCode.SERVER_ERROR, "현재 비밀번호가 정확하지 않습니다");
+			//return ApiResponse.fail();
 		}
 
 		/** 2. 사용자정보 변경 **/

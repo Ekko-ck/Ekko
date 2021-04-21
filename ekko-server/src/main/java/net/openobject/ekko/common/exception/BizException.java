@@ -1,5 +1,7 @@
 package net.openobject.ekko.common.exception;
 
+import net.openobject.ekko.common.response.ResultCode;
+
 /**
  * BizException.java
  * <br/>
@@ -12,28 +14,28 @@ public class BizException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 
-	private String code = "";
+	private ResultCode code = ResultCode.SERVER_ERROR;
 	
 	public BizException() {
 		super("errorMessage", null);
 	}
 	
-	public BizException(String code) {
+	public BizException(ResultCode code) {
 		super("errorMessage", null);
 		this.code = code;
 	}
 	
-	public BizException(String code, String message) {
+	public BizException(ResultCode code, String message) {
 		super(message, null);
 		this.code = code;
 	}
 	
-	public BizException(String code, String message, Throwable t) {
+	public BizException(ResultCode code, String message, Throwable t) {
 		super(message, t);
 		this.code = code;
 	}
 	
-	public String getCode() {
+	public ResultCode getCode() {
 		return this.code;
 	}
 
