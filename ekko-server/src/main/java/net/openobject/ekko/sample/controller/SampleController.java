@@ -1,7 +1,5 @@
 package net.openobject.ekko.sample.controller;
 
-import java.util.Map;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,12 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.slf4j.Slf4j;
-import net.openobject.ekko.sample.dto.SampleUserRequest;
-import net.openobject.ekko.sample.dto.SampleUserResponse;
+import net.openobject.ekko.common.auth.payload.MessageResponse;
+import net.openobject.ekko.common.response.ApiResponse;
 
 @Slf4j
 @RestController
@@ -27,6 +22,12 @@ public class SampleController {
 		return input;
 	}
 	
+	@GetMapping("/hello2/{input}")
+	public ApiResponse<MessageResponse> sayHello2(@PathVariable String input) {
+		log.info("hello2");
+		return  ApiResponse.ok(new MessageResponse(input));
+	}
+	
 	@GetMapping("/modelandview/test")
 	public ModelAndView modelandviewTest() {
 		ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
@@ -37,26 +38,4 @@ public class SampleController {
 		return mv;
 	}
 	
-	@GetMapping("/modelandview/test2")
-	public ModelAndView modelandviewTest2() {
-		ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
-		
-		SampleUserResponse userRes = new SampleUserResponse();
-		userRes.setUserId("sehoone");
-		userRes.setUserName("세훈이");
-		
-		SampleUserRequest userreq = new SampleUserRequest();
-		userreq.setUserId("asd");
-		userreq.setUserName("ddddd");
-		userRes.setSampleUserRequest(userreq);
-		
-		//mv.addObject(userRes);
-		//mv.addObject("user", userRes);
-		//ObjectMapper objectMapper = new ObjectMapper();
-		//Map<String, Object> map = objectMapper.convertValue(userRes, Map.class);
-		Map<String, Object> resultMap = new ObjectMapper().convertValue(userRes, new TypeReference<Map<String,Object>>(){});
-		mv.addAllObjects(resultMap);
-		return mv;
-	}
-    
 }
