@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import lombok.extern.slf4j.Slf4j;
-import net.openobject.ekko.common.auth.payload.MessageResponse;
+import net.openobject.ekko.common.auth.dto.MessageResponse;
 import net.openobject.ekko.common.response.ApiResponse;
 
 @Slf4j
@@ -25,6 +25,7 @@ public class SampleController {
 	@GetMapping("/hello2/{input}")
 	public ApiResponse<MessageResponse> sayHello2(@PathVariable String input) {
 		log.info("hello2");
+		
 		return  ApiResponse.ok(new MessageResponse(input));
 	}
 	

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
-import net.openobject.ekko.common.auth.payload.JwtUserResponse;
-import net.openobject.ekko.common.auth.payload.SignupRequest;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
+import net.openobject.ekko.common.auth.dto.SignupRequest;
 import net.openobject.ekko.user.builder.UserBuilder;
 import net.openobject.ekko.user.dto.UserInfoRequest;
 import net.openobject.ekko.user.entity.User;

@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import net.openobject.ekko.common.auth.payload.JwtUserResponse;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.user.entity.User;
 
 public class UserDetailsImpl implements UserDetails {
