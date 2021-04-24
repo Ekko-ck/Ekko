@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import net.openobject.ekko.common.auth.payload.JwtUserResponse;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.user.repository.UserRepository;
 import net.openobject.ekko.user.service.UserService;
 

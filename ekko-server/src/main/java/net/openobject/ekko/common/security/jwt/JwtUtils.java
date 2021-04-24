@@ -15,7 +15,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
-import net.openobject.ekko.common.auth.payload.JwtUserResponse;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.common.security.service.UserDetailsImpl;
 
 /**
@@ -39,20 +39,38 @@ public class JwtUtils {
 	@Value("${ekkoserver.app.rjwt-expiration-ms}")
 	private int rjwtExpirationMs;
 	
+	@Value("${spring.profiles.active:}")
+	private String activeProfile;
+	
 	public String generateJwtToken(Authentication authentication) {
 
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-		return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-				//.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+	
+		String jwtToken = "";
+		if("local".equals(activeProfile) || "dev".equals(activeProfile)) {
+			jwtToken = Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
+					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		} else {
+			jwtToken = Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
+					.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		}
+		return jwtToken;
 	}
 	
 	public String generateJwtToken(String token) {
 		String username = getUserNameFromJwtToken(token);
-		return Jwts.builder().setSubject((username)).setIssuedAt(new Date())
-				//.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		
+		String jwtToken = "";
+		if("local".equals(activeProfile) || "dev".equals(activeProfile)) {
+			jwtToken = Jwts.builder().setSubject((username)).setIssuedAt(new Date())
+					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		} else {
+			jwtToken = Jwts.builder().setSubject((username)).setIssuedAt(new Date())
+					.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		}
+		return jwtToken;
 	}
 
 	public String getUserNameFromJwtToken(String token) {
