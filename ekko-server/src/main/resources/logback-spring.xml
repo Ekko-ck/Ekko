@@ -31,7 +31,8 @@
 		<logger name="net.openobject" level="debug" additivity="false">
 			<appender-ref ref="console" />
 		</logger>
-		<root level="debug">
+		<logger name="org.hibernate.type" level="TRACE" />
+		<root level="info">
 			<appender-ref ref="console" />
 		</root>
 	</springProfile>

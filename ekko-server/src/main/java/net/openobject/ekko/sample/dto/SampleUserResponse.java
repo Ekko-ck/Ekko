@@ -18,4 +18,5 @@ public class SampleUserResponse extends BaseDto {
 	private String userId;
 	private String userName;
 	
+	private SampleUserRequest sampleUserRequest;
 }
