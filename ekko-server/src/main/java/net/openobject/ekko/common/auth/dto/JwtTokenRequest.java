@@ -1,4 +1,4 @@
-package net.openobject.ekko.common.auth.payload;
+package net.openobject.ekko.common.auth.dto;
 
 import lombok.Data;
 

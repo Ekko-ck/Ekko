@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import net.openobject.ekko.common.auth.payload.JwtUserResponse;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.user.dto.UserInfoResponse;
 import net.openobject.ekko.user.entity.User;
 

@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import net.openobject.ekko.common.auth.payload.JwtResponse;
-import net.openobject.ekko.common.auth.payload.JwtUserResponse;
-import net.openobject.ekko.common.auth.payload.LoginRequest;
-import net.openobject.ekko.common.auth.payload.MessageResponse;
-import net.openobject.ekko.common.auth.payload.SignupRequest;
+import net.openobject.ekko.common.auth.dto.JwtResponse;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
+import net.openobject.ekko.common.auth.dto.LoginRequest;
+import net.openobject.ekko.common.auth.dto.MessageResponse;
+import net.openobject.ekko.common.auth.dto.SignupRequest;
 import net.openobject.ekko.common.exception.BizException;
 import net.openobject.ekko.common.response.ApiResponse;
 import net.openobject.ekko.common.response.ResultCode;
