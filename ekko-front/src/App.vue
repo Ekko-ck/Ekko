@@ -40,6 +40,9 @@
     <v-main>
       <HelloWorld/>
     </v-main>
+    <v-btn @click="handleTest">
+      API Test
+    </v-btn>
   </v-app>
 </template>
 
@@ -54,7 +57,13 @@ export default {
   },
 
   data: () => ({
-    //
-  })
+  }),
+  methods: {
+    handleTest () {
+      this.axios.get('/api/sample/hello2/helloworld').then((response) => {
+        console.log(response.data)
+      })
+    }
+  }
 }
 </script>
