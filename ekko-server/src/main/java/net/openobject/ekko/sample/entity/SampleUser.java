@@ -30,7 +30,7 @@ public class SampleUser extends BaseEntity {
 	private String userId;
 	
 	@Column(name = "name")
-	private String userName; // leaf -> leaf 님
+	private String userName;
 	
 	public SampleUser update(SampleUserRequest formDto) {
 		this.userName = formDto.getUserName();
