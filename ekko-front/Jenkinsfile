@@ -6,6 +6,7 @@ pipeline {
             steps {
             	echo 'Building..'
             	sh 'pwd'
+                sh 'cd ekko-front'
             	sh 'npm run build'
             }
         }
