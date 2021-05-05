@@ -8,10 +8,14 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.openobject.ekko.common.auth.dto.JwtUserResponse;
+import net.openobject.ekko.common.entity.BaseDocument;
 
 @Document(indexName = "question")
 @Data
-public class Question {
+@EqualsAndHashCode(callSuper = false)
+public class Question extends BaseDocument {
 	
 	@Id
 	private String id;
@@ -40,28 +44,25 @@ public class Question {
 	@Field(type = FieldType.Text, name = "deletedAt")
 	private String deletedAt;
 	
-	@Field(type = FieldType.Object, name = "attched")
+	@Field(type = FieldType.Auto, name = "attched")
 	private List<AttachedFile> attched;
 	
-	@Field(type = FieldType.Object, name = "tags")
+	@Field(type = FieldType.Auto, name = "tags")
 	private List<String> tags;
 	
-	@Field(type = FieldType.Object, name = "tags")
+	@Field(type = FieldType.Object, name = "answers")
 	private List<Answer> answers;
 	
-	@Field(type = FieldType.Object, name = "tags")
+	@Field(type = FieldType.Object, name = "comments")
 	private List<Comment> comments;
 	
-	@Field(type = FieldType.Text, name = "createdAt")
-	private String createdAt;
-	
-	@Field(type = FieldType.Text, name = "createdBy")
-	private String createdBy;
-	
-	@Field(type = FieldType.Text, name = "modifiedAt")
-	private String modifiedAt;
-	
-	@Field(type = FieldType.Text, name = "modifiedBy")
-	private String 	modifiedBy;
+	public void init(JwtUserResponse user) {
+		this.votes = 0L;
+		this.views = 0L;
+		this.deleted = false;
+		this.userId = user.getUserId();
+		this.userName = user.getUserNm();
+		this.setForRegistration(user.getUserId());
+	}
 	
 }

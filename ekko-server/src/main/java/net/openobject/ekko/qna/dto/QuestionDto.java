@@ -23,8 +23,8 @@ public class QuestionDto {
 	private List<String> tags;
 	private List<Answer> answers;
 	private List<Comment> comments;
-	private String createdAt;
-	private String createdBy;
+	private String registeredAt;
+	private String registeredBy;
 	private String modifiedAt;
 	private String 	modifiedBy;
 	

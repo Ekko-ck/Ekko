@@ -1,17 +1,15 @@
 package net.openobject.ekko.qna.document;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.openobject.ekko.common.entity.BaseDocument;
 
 @Data
-public class Comment {
+@EqualsAndHashCode(callSuper = false)
+public class Comment extends BaseDocument {
 	
-	private String id;
     private String userId;
     private String userName;
     private String contents;
-    private String createdAt;
-    private String createdBy;
-    private String modifiedAt;
-    private String modifiedBy;
     
 }

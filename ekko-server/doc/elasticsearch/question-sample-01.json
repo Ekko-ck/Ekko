@@ -28,28 +28,28 @@
     "comments": [{
       "userId": "kis6905",
       "userName": "leaf",
-      "comment": "그렇군요. 감사합니다.",
-      "createdAt": "2021-04-17 21:07:00",
-      "createdBy": "kis6905",
+      "contents": "그렇군요. 감사합니다.",
+      "registeredAt": "2021-04-17 21:07:00",
+      "registeredBy": "kis6905",
       "modifiedAt": "2021-04-17 21:07:00",
       "modifiedBy": "kis6905"
     }],
-    "createdAt": "2021-04-17 20:35:21",
-    "createdBy": "sehoon",
+    "registeredAt": "2021-04-17 20:35:21",
+    "registeredBy": "sehoon",
     "modifiedAt": "2021-04-17 20:35:21",
     "modifiedBy": "sehoon"
   }],
   "comments": [{
     "userId": "test01",
     "userName": "Kanada",
-    "comment": "저두 궁금해요",
-    "createdAt": "2021-04-17 19:40:21",
-    "createdBy": "test01",
+    "contents": "저두 궁금해요",
+    "registeredAt": "2021-04-17 19:40:21",
+    "registeredBy": "test01",
     "modifiedAt": "2021-04-17 19:40:21",
     "modifiedBy": "test01"
   }],
-  "createdAt": "2021-04-17 19:30:45",
-  "createdBy": "kis6905",
-  "modifiedAt": "2021-04-17 19:30:45",
+  "registeredAt": "2021-04-16 19:30:45",
+  "registeredBy": "kis6905",
+  "modifiedAt": "2021-04-16 19:30:45",
   "modifiedBy": "kis6905"
 }

@@ -3,9 +3,12 @@ package net.openobject.ekko.qna.document;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.openobject.ekko.common.entity.BaseDocument;
 
 @Data
-public class Answer {
+@EqualsAndHashCode(callSuper = false)
+public class Answer extends BaseDocument {
 	
 	private String id;
     private String userId;
@@ -15,9 +18,5 @@ public class Answer {
     private String deleted;
     private String deletedAt;
     private List<Comment> comments;
-    private String createdAt;
-    private String createdBy;
-    private String modifiedAt;
-    private String modifiedBy;
 	
 }
