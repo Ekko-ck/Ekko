@@ -6,8 +6,7 @@ pipeline {
             steps {
             	echo 'Building..'
             	sh 'pwd'
-                sh 'cd ekko-front'
-            	sh 'npm run build'
+            	sh 'npm --prefix ekko-front run build'
             }
         }
         stage('Test') {
@@ -18,7 +17,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'cp -Rf ./dist/* /data/ekko-web/'
+                sh 'cp -Rf ./ekko-front/dist/* /data/ekko-web/'
             }
         }
     }
