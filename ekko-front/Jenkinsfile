@@ -6,10 +6,12 @@ pipeline {
             steps {
             	echo 'Building..'
                 dir('ekko-front') {
-                    sh 'inner ekko-front pwd'
+                    echo 'inner ekko-front'
+                    sh 'pwd'
                     sh 'ls'
                 }
-            	sh 'outer pwd'
+            	echo 'outer'
+                sh 'pwd'
                 sh 'ls'
             	sh 'npm --prefix ekko-front run build'
             }
