@@ -43,14 +43,14 @@ public class QuestionController {
 		return ApiResponse.ok(questionService.searchQuestion(pageable, query));
 	}
 	
-	@PutMapping
+	@PostMapping
 	public ApiResponse<QuestionDto> register(@RequestBody QuestionRegistrationReuqest questionRegistrationReuqest) {
 		log.info("questionRegistrationReuqest: {}", questionRegistrationReuqest);
 		JwtUserResponse user = jwtUtils.getLoginUserEntity();
 		return ApiResponse.ok(questionService.registerQuestion(questionRegistrationReuqest, user));
 	}
 	
-	@PostMapping("/{questionId}")
+	@PutMapping("/{questionId}")
 	public ApiResponse<QuestionDto> modify(
 			@PathVariable(value = "questionId", required = true) String questionId,
 			@RequestBody QuestionModificationReuqest questionModificationRequest) throws Exception {
