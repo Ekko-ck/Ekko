@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    tools {nodejs "node 16.1.0"}
+    stages {
+        stage('Build') {
+            steps {
+            	echo 'Building..'
+                dir('ekko-front') {
+                    sh 'pwd'
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+                dir('ekko-front') {
+                    sh 'pwd'
+                    sh 'ls'
+                    sh 'cp -Rf ./dist/* /data/ekko-web/'
+                }
+            }
+        }
+    }
+}

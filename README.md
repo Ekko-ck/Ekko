@@ -1,6 +1,6 @@
 # Ekko
 Ekko is Toy Project.  
-Members: leaf, sehoon
+Members: leaf, sehoon, jihyeon
 
 ## Description
 Stackoverflow 의 private 버전  

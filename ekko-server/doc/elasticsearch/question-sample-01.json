@@ -1,0 +1,55 @@
+{
+  "userId": "kis6905",
+  "userName": "leaf",
+  "title": "현대카드 서버 세팅 질문있습니다.",
+  "contents": "클라우드 배포는 없나요?",
+  "votes": 1,
+  "views": 5,
+  "deleted": false,
+  "deletedAt": null,
+  "attached": [
+    {
+      "type": "image",
+      "url": "https://cdn.ekko.com/images/a.png"
+    }, {
+      "type": "file",
+      "url": "https://cdn.ekko.com/files/a.xlsx"
+    }
+  ],
+  "tags": ["현대카드", "server"],
+  "answers": [{
+    "id": "1_a_1",
+    "userId": "sehoon",
+    "userName": "sehoone",
+    "contents": "네, 없습니다. 현재 클라우드 기반 배포환경을 구축중인것으로 압니다.",
+    "votes": 2,
+    "deleted": false,
+    "deletedAt": null,
+    "comments": [{
+      "userId": "kis6905",
+      "userName": "leaf",
+      "contents": "그렇군요. 감사합니다.",
+      "registeredAt": "2021-04-17 21:07:00",
+      "registeredBy": "kis6905",
+      "modifiedAt": "2021-04-17 21:07:00",
+      "modifiedBy": "kis6905"
+    }],
+    "registeredAt": "2021-04-17 20:35:21",
+    "registeredBy": "sehoon",
+    "modifiedAt": "2021-04-17 20:35:21",
+    "modifiedBy": "sehoon"
+  }],
+  "comments": [{
+    "userId": "test01",
+    "userName": "Kanada",
+    "contents": "저두 궁금해요",
+    "registeredAt": "2021-04-17 19:40:21",
+    "registeredBy": "test01",
+    "modifiedAt": "2021-04-17 19:40:21",
+    "modifiedBy": "test01"
+  }],
+  "registeredAt": "2021-04-16 19:30:45",
+  "registeredBy": "kis6905",
+  "modifiedAt": "2021-04-16 19:30:45",
+  "modifiedBy": "kis6905"
+}
