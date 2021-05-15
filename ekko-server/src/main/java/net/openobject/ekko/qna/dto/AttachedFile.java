@@ -1,4 +1,4 @@
-package net.openobject.ekko.qna.document;
+package net.openobject.ekko.qna.dto;
 
 import lombok.Data;
 
