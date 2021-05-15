@@ -5,8 +5,11 @@ pipeline {
         stage('Build') {
             steps {
             	echo 'Building..'
-            	sh 'pwd'
-            	sh 'npm --prefix ekko-front run build'
+                dir('ekko-front') {
+                    sh 'pwd'
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
             }
         }
         stage('Test') {
@@ -17,7 +20,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'cp -Rf ./ekko-front/dist/* /data/ekko-web/'
+                dir('ekko-front') {
+                    sh 'pwd'
+                    sh 'ls'
+                    sh 'cp -Rf ./dist/* /data/ekko-web/'
+                }
             }
         }
     }
