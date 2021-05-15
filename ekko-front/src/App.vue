@@ -40,14 +40,18 @@
     <v-main>
       <HelloWorld/>
     </v-main>
-    <v-btn @click="handleTest">
-      API Test
+    <v-btn @click="getTest">
+      API get
+    </v-btn>
+    <v-btn @click="deleteTest">
+      API delete
     </v-btn>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
+import { getTest } from '@/api/index'
 
 export default {
   name: 'App',
@@ -59,6 +63,10 @@ export default {
   data: () => ({
   }),
   methods: {
+    async getTest () {
+      await getTest()
+    },
+
     handleTest () {
       this.axios.get('/api/sample/hello2/helloworld').then((response) => {
         console.log(response.data)
