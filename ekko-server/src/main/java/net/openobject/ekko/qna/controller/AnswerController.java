@@ -28,7 +28,7 @@ public class AnswerController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
-	@PutMapping("/{questionId}/answer")
+	@PostMapping("/{questionId}/answer")
 	public ApiResponse<AnswerDto> register(
 			@PathVariable(value = "questionId", required = true) String questionId,
 			@RequestBody AnswerRegistrationReuqest answerRegistrationReuqest) throws Exception {
@@ -37,7 +37,7 @@ public class AnswerController {
 		return ApiResponse.ok(answerService.registerAnswer(questionId, answerRegistrationReuqest, user));
 	}
 	
-	@PostMapping("/{questionId}/answer/{answerId}")
+	@PutMapping("/{questionId}/answer/{answerId}")
 	public ApiResponse<AnswerDto> modify(
 			@PathVariable(value = "questionId", required = true) String questionId,
 			@PathVariable(value = "answerId", required = true) String answerId,

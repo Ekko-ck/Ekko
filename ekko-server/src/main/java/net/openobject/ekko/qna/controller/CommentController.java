@@ -3,7 +3,7 @@ package net.openobject.ekko.qna.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,7 @@ public class CommentController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
-	@PutMapping("/{questionId}/comment")
+	@PostMapping("/{questionId}/comment")
 	public ApiResponse<CommentDto> registerToQuestion(
 			@PathVariable(value = "questionId", required = true) String questionId,
 			@RequestBody CommentRegistrationReuqest commentRegistrationReuqest) throws Exception {
@@ -44,7 +44,7 @@ public class CommentController {
 		return ApiResponse.ok();
 	}
 	
-	@PutMapping("/{questionId}/answer/{answerId}/comment")
+	@PostMapping("/{questionId}/answer/{answerId}/comment")
 	public ApiResponse<CommentDto> registerToAnswer(
 			@PathVariable(value = "questionId", required = true) String questionId,
 			@PathVariable(value = "answerId", required = true) String answerId,
