@@ -50,17 +50,19 @@ public class QuestionController {
 		return ApiResponse.ok(questionService.registerQuestion(questionRegistrationReuqest, user));
 	}
 	
-	@PostMapping
-	public ApiResponse<QuestionDto> modify(@RequestBody QuestionModificationReuqest questionModificationRequest) throws Exception {
-		log.info("questionModificationRequest: {}", questionModificationRequest);
+	@PostMapping("/{questionId}")
+	public ApiResponse<QuestionDto> modify(
+			@PathVariable(value = "questionId", required = true) String questionId,
+			@RequestBody QuestionModificationReuqest questionModificationRequest) throws Exception {
+		log.info("questionId: {}, questionModificationRequest: {}", questionModificationRequest);
 		JwtUserResponse user = jwtUtils.getLoginUserEntity();
-		return ApiResponse.ok(questionService.modifyQuestion(questionModificationRequest, user));
+		return ApiResponse.ok(questionService.modifyQuestion(questionId, questionModificationRequest, user));
 	}
 	
-	@DeleteMapping("/{id}")
-	public ApiResponse<QuestionDto> remove(@PathVariable String id) throws Exception {
+	@DeleteMapping("/{questionId}")
+	public ApiResponse<?> remove(@PathVariable(value = "questionId", required = true) String questionId) throws Exception {
 		JwtUserResponse user = jwtUtils.getLoginUserEntity();
-		questionService.removeQuestion(id, user);
+		questionService.removeQuestion(questionId, user);
 		return ApiResponse.ok();
 	}
 	

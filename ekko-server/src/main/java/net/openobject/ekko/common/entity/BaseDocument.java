@@ -38,5 +38,4 @@ public class BaseDocument {
 		this.modifiedAt = nowDate;
 		this.modifiedBy = userId;
 	}
-	
 }

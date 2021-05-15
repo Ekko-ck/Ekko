@@ -1,5 +1,6 @@
 package net.openobject.ekko.qna.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.common.entity.BaseDocument;
+import net.openobject.ekko.qna.dto.AttachedFile;
 
 @Document(indexName = "question")
 @Data
@@ -63,6 +65,24 @@ public class Question extends BaseDocument {
 		this.userId = user.getUserId();
 		this.userName = user.getUserNm();
 		this.setForRegistration(user.getUserId());
+	}
+	
+	public boolean isSameUser(String checkUserId) {
+		return this.userId.equals(checkUserId);
+	}
+	
+	public void addAnswer(Answer answer) {
+		if (this.answers == null) {
+			this.answers = new ArrayList<>();
+		}
+		this.answers.add(answer);
+	}
+	
+	public void addComment(Comment comment) {
+		if (this.comments == null) {
+			this.comments = new ArrayList<>();
+		}
+		this.comments.add(comment);
 	}
 	
 }
