@@ -5,8 +5,13 @@
 </template>
 
 <script>
+import API from '../api/question'
 export default {
   name: 'Question',
+  async created () {
+    const res = await API.search({})
+    console.log(res)
+  },
   components: {
   },
   methods: {

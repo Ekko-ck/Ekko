@@ -1,25 +1,26 @@
 import axios from 'axios'
 
 const CONTENT_TYPE_JSON = 'application/json;chatset=utf-8'
-const CONTENT_TYPE_FORM = 'multipart/form-data'
+// const CONTENT_TYPE_FORM = 'multipart/form-data'
 
 const getAuthorization = () => {
   if (process.env.VUE_APP_MODE && process.env.VUE_APP_MODE === 'local') {
     return `Bearer ${process.env.VUE_APP_JWT}`
   } else {
-    return `Bearer ` // TODO: store에서 조회
+    return 'Bearer ' // TODO: store에서 조회
   }
 }
 
 const getConfig = (contentType) => {
-  let config = {
+  const config = {
     headers: {
-      'Authorization': getAuthorization()
+      Authorization: getAuthorization()
     }
   }
   if (contentType) {
     config.headers['Content-Type'] = contentType
   }
+  return config
 }
 
 export default {
@@ -33,6 +34,6 @@ export default {
     return axios.put(url, data, getConfig(CONTENT_TYPE_JSON))
   },
   delete (url) {
-    return axios.delete(url, jwt)
+    return axios.delete(url)
   }
 }

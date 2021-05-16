@@ -1,8 +1,8 @@
 import http from './http.js'
 
 export default {
-  async search (data) {
-    return await http.post('/api/user/auth/signin', data)
+  async search (query) {
+    return await http.get(`/api/question/search?query=${query}`)
   },
   async regiserQuestion () {
   },
@@ -23,5 +23,5 @@ export default {
   async regiserCommentToAnswer () {
   },
   async removeCommentFromAnswer () {
-  },
+  }
 }
