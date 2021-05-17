@@ -9,7 +9,7 @@ import API from '../api/question'
 export default {
   name: 'Question',
   async created () {
-    const res = await API.search({})
+    const res = await API.search('server')
     console.log(res)
   },
   components: {
