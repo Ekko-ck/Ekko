@@ -14,7 +14,9 @@ export default {
   components: {
   },
   methods: {
-    handleLogin () {
+    async handleLogin () {
+      const result = await this.$store.dispatch('auth/login', { userId: 'test', password: '131313' })
+      console.log('login', result)
       this.$router.push('/question')
     },
     handleJoin () {
