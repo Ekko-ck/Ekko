@@ -49,7 +49,16 @@ const actions = {
   },
   refreshToken (context, payload) {
   },
-  signUpUser (context, playload) {
+  signupUser (context, playload) {
+    const user = playload
+    context.commit('signupUser')
+    API.signup(user.userId, user.password, user.userEmailAddr).then((response) => {
+      setTimeout(() => {
+        context.commit('signupUserSuccess', response)
+      }, 500)
+    }).catch(error => {
+      console.log('error', error)
+    })
   },
   validateJwtToken (context, payload) {
   }
@@ -92,7 +101,28 @@ const mutations = {
 
     router.push('/login')
   },
-  signUpUser () {
+  signupUser () {
+  },
+  signupUserSuccess (state, response) {
+    console.log('response ' + JSON.stringify(response))
+    if (response.data.resultCode === '0000') {
+      const data = response.data.data
+      const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
+
+      state.user = JSON.stringify(loginUser)
+      localStorage.setItem('user', JSON.stringify(loginUser))
+
+      state.token = data.token
+      localStorage.setItem('token', data.token)
+
+      state.refreshToken = data.refreshToken
+      localStorage.setItem('refreshToken', data.refreshToken)
+
+      state.type = data.type
+      localStorage.setItem('type', data.type)
+
+      router.push('/question')
+    }
   },
   signUpUserSuccess (state, response) {
   },

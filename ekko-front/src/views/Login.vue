@@ -31,8 +31,8 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="info">
-                Forgot password?
+              <v-btn @click="handleJoin" color="info">
+                Join
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn @click="signinUser" color="info">

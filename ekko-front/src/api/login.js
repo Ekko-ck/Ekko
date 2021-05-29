@@ -4,6 +4,8 @@ export default {
   async signin (userId, password) {
     return http.post('/api/user/auth/signin', { userId, password })
   },
-  async join () {
+  async signup (userId, password, userEmailAddr) {
+    console.log('asdasd')
+    return http.post('/api/user/auth/signup', { userId, password, userEmailAddr })
   }
 }
