@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class QuestionModificationReuqest {
 	
-	private String id;
 	private String title;
 	private String contents;
 	private List<String> tags;

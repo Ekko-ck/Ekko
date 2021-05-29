@@ -3,9 +3,6 @@ package net.openobject.ekko.qna.dto;
 import java.util.List;
 
 import lombok.Data;
-import net.openobject.ekko.qna.document.Answer;
-import net.openobject.ekko.qna.document.AttachedFile;
-import net.openobject.ekko.qna.document.Comment;
 
 @Data
 public class QuestionDto {
@@ -21,8 +18,8 @@ public class QuestionDto {
 	private String deletedAt;
 	private List<AttachedFile> attched;
 	private List<String> tags;
-	private List<Answer> answers;
-	private List<Comment> comments;
+	private List<AnswerDto> answers;
+	private List<CommentDto> comments;
 	private String registeredAt;
 	private String registeredBy;
 	private String modifiedAt;

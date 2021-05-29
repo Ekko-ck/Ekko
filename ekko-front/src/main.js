@@ -4,8 +4,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from './plugins/axios'
+import popupMixin from './mixins/popup'
 
 Vue.config.productionTip = false
+Vue.mixin(popupMixin)
 
 new Vue({
   router,
