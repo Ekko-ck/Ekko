@@ -81,10 +81,10 @@
           <v-card-text>
             <v-row>
               <v-col cols="6">
-                <v-btn color="purple" block dark @click="handlePopup1">Alert Popup</v-btn>
+                <v-btn color="purple" block dark @click="handlePopup1">Alert</v-btn>
               </v-col>
               <v-col cols="6">
-                <v-btn color="purple" block dark @click="handlePopup2">Confirm Popup</v-btn>
+                <v-btn color="purple" block dark @click="handlePopup2">Confirm</v-btn>
               </v-col>
             </v-row>
           </v-card-text>
