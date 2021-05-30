@@ -1,9 +1,8 @@
 import http from './http.js'
 
 export default {
-  async search (query) {
-    const res = await http.get(`/api/question/search?query=${query}`)
-    return res.data
+  async search (params) {
+    return await http.get(`/api/question/search?query=${params.query}`)
   },
   async regiserQuestion () {
   },
