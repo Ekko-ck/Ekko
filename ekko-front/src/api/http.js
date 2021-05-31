@@ -35,6 +35,9 @@ const handleResponse = (res) => {
 
 const handleError = (res) => {
   // TODO: 에러 팝업 처리
+  console.log(1)
+  console.log(2)
+  console.log(3)
 }
 
 export default {
