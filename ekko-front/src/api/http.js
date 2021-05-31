@@ -8,7 +8,7 @@ const getAuthorization = () => {
   if (process.env.VUE_APP_MODE && process.env.VUE_APP_MODE === 'local') {
     return `Bearer ${process.env.VUE_APP_JWT}`
   } else {
-    return `Bearer ${store.getters.jwt}`
+    return `Bearer ${store.getters['auth/jwt']}`
   }
 }
 
