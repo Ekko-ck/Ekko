@@ -35,6 +35,14 @@ const routes = [
   }
 ]
 
+if (process.env.VUE_APP_MODE === 'local') {
+  routes.push({
+    path: '/sample',
+    name: 'Sample',
+    component: () => import('../views/sample/Sample01.vue')
+  })
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

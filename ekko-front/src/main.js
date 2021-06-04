@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from './plugins/axios'
+import popupMixin from './mixins/popup'
 
 Vue.config.productionTip = false
+
+Vue.mixin(popupMixin)
 /*
 router.beforeEach(async (to, from, next) => {
   console.log('entered router.beforeEach')
@@ -25,6 +28,7 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 */
+
 new Vue({
   router,
   store,

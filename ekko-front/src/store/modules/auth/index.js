@@ -25,6 +25,9 @@ const getters = {
   },
   isValidateJwtToken: state => {
     return state.isValidateJwtToken
+  },
+  getJwt: state => {
+    return state.token
   }
 }
 
@@ -69,25 +72,22 @@ const mutations = {
   signinUser () {
   },
   signinUserSuccess (state, response) {
-    console.log('response ' + JSON.stringify(response))
-    if (response.data.resultCode === '0000') {
-      const data = response.data.data
-      const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
+    const data = response
+    const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
 
-      state.user = JSON.stringify(loginUser)
-      localStorage.setItem('user', JSON.stringify(loginUser))
+    state.user = JSON.stringify(loginUser)
+    localStorage.setItem('user', JSON.stringify(loginUser))
 
-      state.token = data.token
-      localStorage.setItem('token', data.token)
+    state.token = data.token
+    localStorage.setItem('token', data.token)
 
-      state.refreshToken = data.refreshToken
-      localStorage.setItem('refreshToken', data.refreshToken)
+    state.refreshToken = data.refreshToken
+    localStorage.setItem('refreshToken', data.refreshToken)
 
-      state.type = data.type
-      localStorage.setItem('type', data.type)
+    state.type = data.type
+    localStorage.setItem('type', data.type)
 
-      router.push('/question')
-    }
+    router.push('/question')
   },
   logoutUser () {
     state.user = null
@@ -104,27 +104,22 @@ const mutations = {
   signupUser () {
   },
   signupUserSuccess (state, response) {
-    console.log('response ' + JSON.stringify(response))
-    if (response.data.resultCode === '0000') {
-      const data = response.data.data
-      const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
+    const data = response
+    const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
 
-      state.user = JSON.stringify(loginUser)
-      localStorage.setItem('user', JSON.stringify(loginUser))
+    state.user = JSON.stringify(loginUser)
+    localStorage.setItem('user', JSON.stringify(loginUser))
 
-      state.token = data.token
-      localStorage.setItem('token', data.token)
+    state.token = data.token
+    localStorage.setItem('token', data.token)
 
-      state.refreshToken = data.refreshToken
-      localStorage.setItem('refreshToken', data.refreshToken)
+    state.refreshToken = data.refreshToken
+    localStorage.setItem('refreshToken', data.refreshToken)
 
-      state.type = data.type
-      localStorage.setItem('type', data.type)
+    state.type = data.type
+    localStorage.setItem('type', data.type)
 
-      router.push('/question')
-    }
-  },
-  signUpUserSuccess (state, response) {
+    router.push('/question')
   },
   signUpUserFailure (state, error) {
   },
@@ -135,7 +130,6 @@ const mutations = {
 }
 
 export default {
-  namespaced: true,
   state,
   getters,
   actions,
