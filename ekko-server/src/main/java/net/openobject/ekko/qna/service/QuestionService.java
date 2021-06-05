@@ -2,6 +2,7 @@ package net.openobject.ekko.qna.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,12 @@ public class QuestionService {
 	private QnaValidationHelper qnaValidationHelper;
 	
 	public List<QuestionDto> searchQuestion(Pageable pageable, String query) {
-		List<Question> questionList = questionEsClient.search(pageable, query);
+		List<Question> questionList = null;
+		if (StringUtils.isEmpty(query)) {
+			questionList = questionEsClient.findAll(pageable);
+		} else {
+			questionList = questionEsClient.search(pageable, query);
+		}
 		return questionBuilder.buildDtoList(questionList);
 	}
 	
