@@ -38,8 +38,10 @@ const handleError = (res) => {
 }
 
 export default {
-  async get (url) {
-    const res = await axios.get(url, getConfig())
+  async get (url, data) {
+    const config = getConfig()
+    config.params = data
+    const res = await axios.get(url, config)
     return handleResponse(res)
   },
   async post (url, data) {

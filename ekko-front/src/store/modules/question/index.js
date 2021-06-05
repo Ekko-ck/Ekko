@@ -14,7 +14,7 @@ const mutations = { // 이벤트 로직 & 메서드 - state의 값을 변경할 
   }
 }
 const actions = { // 비동기 로직
-  async search ({ commit }, requestData) {
+  async search ({ commit }, requestData = {}) {
     const questionList = await API.search(requestData)
     commit('setQuestionList', questionList) // api 호출
   }
