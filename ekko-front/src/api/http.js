@@ -8,7 +8,7 @@ const getAuthorization = () => {
   if (process.env.VUE_APP_MODE && process.env.VUE_APP_MODE === 'local') {
     return `Bearer ${process.env.VUE_APP_JWT}`
   } else {
-    return `Bearer ${store.getters.jwt}`
+    return `Bearer ${store.getters['auth/jwt']}`
   }
 }
 
@@ -35,6 +35,9 @@ const handleResponse = (res) => {
 
 const handleError = (res) => {
   // TODO: 에러 팝업 처리
+  console.log(1)
+  console.log(2)
+  console.log(3)
 }
 
 export default {

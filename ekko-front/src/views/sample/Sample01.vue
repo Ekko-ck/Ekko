@@ -81,10 +81,10 @@
           <v-card-text>
             <v-row>
               <v-col cols="6">
-                <v-btn color="purple" block dark @click="handlePopup1">Alert Popup</v-btn>
+                <v-btn color="purple" block dark @click="handlePopup1">Alert</v-btn>
               </v-col>
               <v-col cols="6">
-                <v-btn color="purple" block dark @click="handlePopup2">Confirm Popup</v-btn>
+                <v-btn color="purple" block dark @click="handlePopup2">Confirm</v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -143,14 +143,13 @@ export default {
       this.search({ query: 'server' })
     },
     async handlePopup1 () {
-      if (await this.$popup.alert({ title: 'title', body: 'alert 팝업' })) {
+      if (await this.$popup.alert({ body: 'alert 팝업' })) {
         console.log('ok! do something...')
       }
       // await this.$popup.alert({ title: '팝업타이틀', body: 'alert 팝업' })
-      // await this.$popup.alert({ body: 'alert 팝업' })
     },
     async handlePopup2 () {
-      if (await this.$popup.confirm({ title: '알림', body: 'confirm 팝업' })) {
+      if (await this.$popup.confirm({ body: 'confirm 팝업' })) {
         console.log('ok! do something...')
       }
     },
