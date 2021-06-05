@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.common.response.ApiResponse;
@@ -16,6 +18,7 @@ import net.openobject.ekko.qna.dto.CommentDto;
 import net.openobject.ekko.qna.dto.CommentRegistrationReuqest;
 import net.openobject.ekko.qna.service.CommentService;
 
+@Api(tags = "QnA > 코멘트")
 @Slf4j
 @RestController
 @RequestMapping("/api/question")
@@ -26,6 +29,7 @@ public class CommentController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
+	@ApiOperation(value = "QnA > 질문 > 코멘트 등록")
 	@PostMapping("/{questionId}/comment")
 	public ApiResponse<CommentDto> registerToQuestion(
 			@PathVariable(value = "questionId", required = true) String questionId,
@@ -35,6 +39,7 @@ public class CommentController {
 		return ApiResponse.ok(commentService.registerCommentToQuestion(questionId, commentRegistrationReuqest, user));
 	}
 	
+	@ApiOperation(value = "QnA > 질문 > 코멘트 삭제")
 	@DeleteMapping("/{questionId}/comment/{commentId}")
 	public ApiResponse<?> removeFromQuestion(
 			@PathVariable(value = "questionId", required = true) String questionId,
@@ -44,6 +49,7 @@ public class CommentController {
 		return ApiResponse.ok();
 	}
 	
+	@ApiOperation(value = "QnA > 답변 > 코멘트 등록")
 	@PostMapping("/{questionId}/answer/{answerId}/comment")
 	public ApiResponse<CommentDto> registerToAnswer(
 			@PathVariable(value = "questionId", required = true) String questionId,
@@ -54,6 +60,7 @@ public class CommentController {
 		return ApiResponse.ok(commentService.registerCommentToAnswer(questionId, answerId, commentRegistrationReuqest, user));
 	}
 	
+	@ApiOperation(value = "QnA > 답변 > 코멘트 삭제")
 	@DeleteMapping("/{questionId}/answer/{answerId}/comment/{commentId}")
 	public ApiResponse<?> removeFromAnswer(
 			@PathVariable(value = "questionId", required = true) String questionId,
