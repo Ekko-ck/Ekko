@@ -33,6 +33,17 @@ const getters = {
 
 // actions
 const actions = {
+  async signinUser ({ commit }, requestData) {
+    console.log('action signinUser')
+    const response = await API.signin(requestData.userId, requestData.password)
+    commit('signinUserSuccess', response)
+  },
+  async signupUser ({ commit }, requestData) {
+    console.log('action signupUser')
+    const response = await API.signup(requestData.userId, requestData.password, requestData.userEmailAddr)
+    commit('signupUserSuccess', response)
+  }
+  /*
   signinUser (context, payload) {
     console.log('action signinUser')
     const user = payload
@@ -65,6 +76,7 @@ const actions = {
   },
   validateJwtToken (context, payload) {
   }
+  */
 }
 
 // mutations
@@ -104,22 +116,9 @@ const mutations = {
   signupUser () {
   },
   signupUserSuccess (state, response) {
-    const data = response
-    const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
-
-    state.user = JSON.stringify(loginUser)
-    localStorage.setItem('user', JSON.stringify(loginUser))
-
-    state.token = data.token
-    localStorage.setItem('token', data.token)
-
-    state.refreshToken = data.refreshToken
-    localStorage.setItem('refreshToken', data.refreshToken)
-
-    state.type = data.type
-    localStorage.setItem('type', data.type)
-
-    router.push('/question')
+    if (response != null) {
+      router.push('/login')
+    }
   },
   signUpUserFailure (state, error) {
   },
