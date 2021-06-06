@@ -32,11 +32,12 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-btn @click="handleJoin" color="info">
+                <v-icon left>mdi-account</v-icon>
                 Join
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn @click="signinUser" color="info">
-                <!--<v-icon left>lock</v-icon>-->
+              <v-btn @click="handleSigninUser" color="info">
+                <v-icon left>mdi-lock</v-icon>
                 Login
               </v-btn>
             </v-card-actions>
@@ -49,8 +50,8 @@
 </template>
 
 <script>
-import User from '../models/User'
-const user = new User('', '', '', '', '')
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Login',
   components: {
@@ -62,11 +63,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['signinUser']),
     // 로그인 처리
-    signinUser () {
-      user.userId = this.userId
-      user.password = this.password
-      this.$store.dispatch('auth/signinUser', user)
+    handleSigninUser () {
+      this.signinUser({ userId: this.userId, password: this.password })
     },
     // 회원가입 화면이동
     handleJoin () {

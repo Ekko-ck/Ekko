@@ -38,8 +38,8 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="signupUser" color="info">
-                <!--<v-icon left>lock</v-icon>-->
+              <v-btn @click="handleSignupUser" color="info">
+                <v-icon left>mdi-account</v-icon>
                 Join
               </v-btn>
             </v-card-actions>
@@ -52,8 +52,7 @@
 </template>
 
 <script>
-import User from '../models/User'
-const user = new User('', '', '', '', '')
+import { mapActions } from 'vuex'
 export default {
   name: 'Join',
   components: {
@@ -66,12 +65,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['signupUser']),
     // 회원가입 화면이동
-    signupUser () {
-      user.userId = this.userId
-      user.password = this.password
-      user.userEmailAddr = this.userEmailAddr
-      this.$store.dispatch('auth/signupUser', user)
+    handleSignupUser () {
+      this.signupUser({ userId: this.userId, password: this.password, userEmailAddr: this.userEmailAddr })
     }
   }
 }
