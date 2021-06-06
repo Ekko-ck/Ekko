@@ -7,7 +7,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -30,10 +29,10 @@ public class QuestionEsClient {
 	private static final IndexCoordinates INDEX_QUESTION = IndexCoordinates.of(INDEX_NAME_QUESTION);
 	private static final String[] SEARCH_FIELDS = new String[] { "title.nori", "contents.nori", "answers.contents.nori", "tags.nori" };
 	
-	public List<Question> findAll(PageRequest pageRequest) {
+	public List<Question> findAll(Pageable pageable) {
 		Query searchQuery = new NativeSearchQueryBuilder()
-									.withSort(new FieldSortBuilder("createdAt").order(SortOrder.ASC))
-									.withPageable(pageRequest)
+									.withSort(new FieldSortBuilder("registeredAt").order(SortOrder.DESC))
+									.withPageable(pageable)
 									.build();
 		SearchHits<Question> searchHits = elasticsearchOperations.search(searchQuery, Question.class, INDEX_QUESTION);
 		List<Question> resultList = searchHits.map(hit -> hit.getContent()).toList();

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.common.response.ApiResponse;
@@ -18,6 +20,7 @@ import net.openobject.ekko.qna.dto.AnswerModificationReuqest;
 import net.openobject.ekko.qna.dto.AnswerRegistrationReuqest;
 import net.openobject.ekko.qna.service.AnswerService;
 
+@Api(tags = "QnA > 답변")
 @Slf4j
 @RestController
 @RequestMapping("/api/question")
@@ -28,6 +31,7 @@ public class AnswerController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
+	@ApiOperation(value = "QnA > 답변 등록")
 	@PostMapping("/{questionId}/answer")
 	public ApiResponse<AnswerDto> register(
 			@PathVariable(value = "questionId", required = true) String questionId,
@@ -37,6 +41,7 @@ public class AnswerController {
 		return ApiResponse.ok(answerService.registerAnswer(questionId, answerRegistrationReuqest, user));
 	}
 	
+	@ApiOperation(value = "QnA > 답변 수정")
 	@PutMapping("/{questionId}/answer/{answerId}")
 	public ApiResponse<AnswerDto> modify(
 			@PathVariable(value = "questionId", required = true) String questionId,
@@ -47,6 +52,7 @@ public class AnswerController {
 		return ApiResponse.ok(answerService.modifyAnswer(questionId, answerId, answerModificationRequest, user));
 	}
 	
+	@ApiOperation(value = "QnA > 답변 삭제")
 	@DeleteMapping("/{questionId}/answer/{answerId}")
 	public ApiResponse<?> remove(
 			@PathVariable(value = "questionId", required = true) String questionId,
