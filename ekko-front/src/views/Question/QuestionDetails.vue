@@ -4,7 +4,23 @@
 
 <script>
 export default {
-
+  name: 'QuestionDetails',
+  props: {
+    question: Object
+  },
+  components: {
+  },
+  data () {
+    return {
+    }
+  },
+  created () {
+    console.log(this.question)
+  },
+  computed: {
+  },
+  methods: {
+  }
 }
 </script>
 

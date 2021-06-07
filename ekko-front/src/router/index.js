@@ -11,7 +11,13 @@ const routes = [
   }, {
     path: '/question',
     name: 'Question',
-    component: () => import('../views/question/Question.vue')
+    component: () => import('../views/question/Question.vue'),
+    children: []
+  }, {
+    path: '/question/details',
+    name: 'QuestionDetails',
+    component: () => import('../views/question/QuestionDetails.vue'),
+    props: true
   }, {
     path: '/join',
     name: 'Join',

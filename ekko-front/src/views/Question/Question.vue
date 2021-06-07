@@ -28,7 +28,10 @@
         <div class="list-area" ref="list">
           <v-list two-line>
             <v-list-item-group>
-              <v-list-item v-for="question in questionList" :key="question.id"> <!-- 클릭 이벤트 -->
+              <v-list-item
+                v-for="question in questionList"
+                :key="question.id"
+                @click="handleClickItem(question)">
                 <v-list-item-content>
 
                   <v-chip-group>
@@ -90,6 +93,9 @@ export default {
       if ((el.scrollHeight - el.offsetHeight) <= (el.scrollTop + 20)) {
         console.log('last')
       }
+    },
+    handleClickItem (question) {
+      this.$router.push({ name: 'QuestionDetails', params: { question: question } })
     }
   }
 }
