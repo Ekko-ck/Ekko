@@ -18,6 +18,9 @@ const actions = {
     const responseData = await API.login(requestData)
     commit('setJwt', responseData.token)
     return true
+  },
+  logout ({ commit }) {
+    commit('setJwt', '')
   }
 }
 
