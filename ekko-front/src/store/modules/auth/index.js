@@ -39,6 +39,9 @@ const actions = {
   },
   async signupUser ({ commit }, requestData) {
     return await API.signup(requestData.userId, requestData.password, requestData.userEmailAddr)
+  },
+  logoutUser ({ commit }) {
+    commit('logoutUser')
   }
   /*
   signinUser (context, payload) {
@@ -70,8 +73,6 @@ const actions = {
     }).catch(error => {
       console.log('error', error)
     })
-  },
-  validateJwtToken (context, payload) {
   }
   */
 }

@@ -80,12 +80,12 @@ export default {
     ...mapGetters('navigation', ['showNavbar', 'showMenuButton'])
   },
   methods: {
-    ...mapActions('auth', ['logout']),
+    ...mapActions('auth', ['logoutUser']),
     handleClickBack () {
       this.$router.back()
     },
     handleClickLogout () {
-      this.logout()
+      this.logoutUser()
       this.drawer = false
       this.$router.push('/login')
     }
