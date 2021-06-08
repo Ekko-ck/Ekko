@@ -78,7 +78,6 @@ const actions = {
   }
   */
 }
-
 // mutations
 const mutations = {
   signinUser () {
