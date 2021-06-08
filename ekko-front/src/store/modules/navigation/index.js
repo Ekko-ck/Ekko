@@ -1,11 +1,7 @@
-const NAVBAR_TYPE = {
-  HIDE: 'hide',
-  MAIN: 'main',
-  PAGE: 'page'
-}
+import NavbarType from './NavbarType'
 
 const state = {
-  navbarType: NAVBAR_TYPE.LOGIN,
+  navbarType: NavbarType.HIDE,
   show: false
 }
 const getters = {
@@ -16,13 +12,13 @@ const getters = {
     return state.show
   },
   showMenuButton (state) {
-    return state.navbarType === NAVBAR_TYPE.MAIN
+    return state.navbarType === NavbarType.MAIN
   }
 }
 const mutations = {
   setNavbarType (state, navbarType) {
     state.navbarType = navbarType
-    state.show = navbarType !== NAVBAR_TYPE.HIDE
+    state.show = navbarType !== NavbarType.HIDE
   }
 }
 const actions = {
