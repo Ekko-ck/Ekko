@@ -66,9 +66,15 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['signupUser']),
-    // 회원가입 화면이동
-    handleSignupUser () {
-      this.signupUser({ userId: this.userId, password: this.password, userEmailAddr: this.userEmailAddr })
+    // 회원가입
+    async handleSignupUser () {
+      const resSignupUser = await this.signupUser({ userId: this.userId, password: this.password, userEmailAddr: this.userEmailAddr })
+      if (resSignupUser != null) {
+        if (await this.$popup.alert({ body: '회원가입 되었습니다' })) {
+          this.$router.push({ name: 'Login' })
+          // this.$router.push('/login')
+        }
+      }
     }
   }
 }

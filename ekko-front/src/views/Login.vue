@@ -65,12 +65,16 @@ export default {
   methods: {
     ...mapActions('auth', ['signinUser']),
     // 로그인 처리
-    handleSigninUser () {
-      this.signinUser({ userId: this.userId, password: this.password })
+    async handleSigninUser () {
+      const resSigninUser = await this.signinUser({ userId: this.userId, password: this.password })
+      if (resSigninUser != null) {
+        this.$router.push({ name: 'Question' })
+      }
     },
     // 회원가입 화면이동
     handleJoin () {
-      this.$router.push('/join')
+      this.$router.push({ name: 'Join' })
+      // this.$router.push('/join')
     }
     // 아이디비밀번호 찾기 화면이동
   }
