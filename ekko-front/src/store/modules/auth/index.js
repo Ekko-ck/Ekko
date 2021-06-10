@@ -43,38 +43,6 @@ const actions = {
   logoutUser ({ commit }) {
     commit('logoutUser')
   }
-  /*
-  signinUser (context, payload) {
-    console.log('action signinUser')
-    const user = payload
-    context.commit('signinUser')
-    API.signin(user.userId, user.password)
-      .then(response => {
-        setTimeout(() => {
-          context.commit('signinUserSuccess', response)
-        }, 500)
-      })
-      .catch(error => {
-        console.log('error', error)
-      })
-  },
-  logoutUser (context) {
-    context.commit('logoutUser')
-  },
-  refreshToken (context, payload) {
-  },
-  signupUser (context, playload) {
-    const user = playload
-    context.commit('signupUser')
-    API.signup(user.userId, user.password, user.userEmailAddr).then((response) => {
-      setTimeout(() => {
-        context.commit('signupUserSuccess', response)
-      }, 500)
-    }).catch(error => {
-      console.log('error', error)
-    })
-  }
-  */
 }
 // mutations
 const mutations = {

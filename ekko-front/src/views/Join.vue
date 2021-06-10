@@ -66,7 +66,6 @@ export default {
       if (resSignupUser != null) {
         if (await this.$popup.alert({ body: '회원가입 되었습니다' })) {
           this.$router.push({ name: 'Login' })
-          // this.$router.push('/login')
         }
       }
     }

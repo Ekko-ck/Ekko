@@ -59,7 +59,6 @@ export default {
     // 로그인 처리
     async handleSigninUser () {
       const resSigninUser = await this.signinUser({ userId: this.userId, password: this.password })
-      console.log('resSigninUser ' + resSigninUser)
       if (resSigninUser != null) {
         this.$router.push({ name: 'Question' })
       }
@@ -67,7 +66,6 @@ export default {
     // 회원가입 화면이동
     handleSignupUser () {
       this.$router.push({ name: 'Join' })
-      // this.$router.push('/join')
     }
     // 아이디비밀번호 찾기 화면이동
   }
