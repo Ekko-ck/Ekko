@@ -77,6 +77,9 @@ export default {
         this.page++
         this.handleSearch()
       }
+    },
+    handleClickItem (question) {
+      this.$router.push({ name: 'QuestionDetails', params: { question: question } })
     }
 
     // https://medium.com/@jbbpatel94/difference-between-offsetheight-clientheight-and-scrollheight-cfea5c196937

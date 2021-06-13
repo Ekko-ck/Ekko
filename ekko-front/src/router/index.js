@@ -1,28 +1,41 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
+import NavbarType from '../store/modules/navigation/NavbarType'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    alias: ['/login'],
     name: 'Login',
-    component: () => import('../views/Login.vue')
-  },
-  {
+    component: () => import('../views/Login.vue'),
+    meta: {
+      navbarType: NavbarType.HIDE
+    }
+  }, {
     path: '/question',
     name: 'Question',
-    component: () => import('../views/Question/Question.vue')
-  },
-  {
+    component: () => import('../views/question/Question.vue'),
+    meta: {
+      navbarType: NavbarType.MAIN
+    }
+  }, {
     path: '/question/details',
     name: 'QuestionDetails',
-    component: () => import('../views/Question/QuestionDetails.vue')
-  },
-  {
+    component: () => import('../views/question/QuestionDetails.vue'),
+    props: true,
+    meta: {
+      navbarType: NavbarType.PAGE
+    }
+  }, {
     path: '/join',
     name: 'Join',
-    component: () => import('../views/Join.vue')
+    component: () => import('../views/Join.vue'),
+    meta: {
+      navbarType: NavbarType.HIDE
+    }
   }
 ]
 
@@ -38,6 +51,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const navbarType = (to.meta && to.meta.navbarType) ? to.meta.navbarType : NavbarType.HIDE
+  setTimeout(() => {
+    store.commit('navigation/setNavbarType', navbarType)
+  }, 50)
+  next()
 })
 
 export default router
