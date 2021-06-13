@@ -13,21 +13,22 @@ import net.openobject.ekko.common.response.ResultCode;
 public class BizException extends Exception {
 
 	private static final long serialVersionUID = 1L;
+	private static final String DEFAULT_MESSAGE = "Server Error!";
 
 	private ResultCode code = ResultCode.SERVER_ERROR;
 	private Object[] params = null;
 	
 	public BizException() {
-		super("errorMessage", null);
+		super(DEFAULT_MESSAGE, null);
 	}
 	
 	public BizException(ResultCode code) {
-		super("errorMessage", null);
+		super(DEFAULT_MESSAGE, null);
 		this.code = code;
 	}
 	
 	public BizException(ResultCode code, Object[] params) {
-		super("errorMessage", null);
+		super(DEFAULT_MESSAGE, null);
 		this.code = code;
 		this.params = params;
 	}
