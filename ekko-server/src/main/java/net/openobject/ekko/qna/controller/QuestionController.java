@@ -42,7 +42,7 @@ public class QuestionController {
 	@GetMapping("/search")
 	public ApiResponse<List<QuestionDto>> search(
 			Pageable pageable,
-			@ApiParam(value = "검색어, 빈 값인 경우 전체 목록") @RequestParam(defaultValue = StringUtils.EMPTY, required = false) String query) {
+			@ApiParam(value = "검색어, 빈 값인 경우 전체 목록") @RequestParam(defaultValue = StringUtils.EMPTY, required = false) String query) throws Exception {
 		log.info("pageable: {}", pageable.toString());
 		log.info("query: {}", query);
 		return ApiResponse.ok(questionService.searchQuestion(pageable, query));

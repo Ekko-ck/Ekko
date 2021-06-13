@@ -43,6 +43,12 @@ public class ApiResponse<T> {
 		setServerTimeToNow();
 	}
 	
+	private ApiResponse(ResultCode resultCode, String resultMessage) {
+		this.resultCode = resultCode;
+		this.resultMessage = resultMessage;
+		setServerTimeToNow();
+	}
+	
 	private void setServerTimeToNow() {
 		this.serverTime = LocalDateTime.now();
 	}
@@ -69,6 +75,10 @@ public class ApiResponse<T> {
 	
 	public static <T> ApiResponse<T> fail(ResultCode resultCode, T data) {
 		return new ApiResponse<T>(resultCode, data);
+	}
+	
+	public static <T> ApiResponse<T> fail(ResultCode resultCode, String resultMessage) {
+		return new ApiResponse<T>(resultCode, resultMessage);
 	}
 	
 	public static <T> ApiResponse<T> fail(T data) {
