@@ -20,7 +20,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import net.openobject.ekko.common.auth.dto.JwtUserResponse;
+import net.openobject.ekko.common.exception.BizException;
 import net.openobject.ekko.common.response.ApiResponse;
+import net.openobject.ekko.common.response.ResultCode;
 import net.openobject.ekko.common.security.jwt.JwtUtils;
 import net.openobject.ekko.qna.dto.QuestionDto;
 import net.openobject.ekko.qna.dto.QuestionModificationReuqest;
@@ -42,10 +44,11 @@ public class QuestionController {
 	@GetMapping("/search")
 	public ApiResponse<List<QuestionDto>> search(
 			Pageable pageable,
-			@ApiParam(value = "검색어, 빈 값인 경우 전체 목록") @RequestParam(defaultValue = StringUtils.EMPTY, required = false) String query) {
+			@ApiParam(value = "검색어, 빈 값인 경우 전체 목록") @RequestParam(defaultValue = StringUtils.EMPTY, required = false) String query) throws Exception {
 		log.info("pageable: {}", pageable.toString());
 		log.info("query: {}", query);
-		return ApiResponse.ok(questionService.searchQuestion(pageable, query));
+		throw new BizException(ResultCode.NOT_FOUND);
+//		return ApiResponse.ok(questionService.searchQuestion(pageable, query));
 	}
 	
 	@ApiOperation(value = "QnA > 질문 등록")

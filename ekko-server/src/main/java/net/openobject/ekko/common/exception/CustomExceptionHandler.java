@@ -25,7 +25,8 @@ public class CustomExceptionHandler extends Exception {
     @ExceptionHandler(BizException.class)
     @ResponseBody
     public final ApiResponse<?> handleBizException(BizException ex, WebRequest request) {
-    	log.debug("BizException", ex);
+    	String code = ex.getCode().getCode();
+    	log.error("BizException", ex);
         return ApiResponse.fail(ex.getCode(), ex.getMessage());
     }
  
