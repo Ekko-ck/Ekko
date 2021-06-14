@@ -30,6 +30,14 @@ const routes = [
       navbarType: NavbarType.PAGE
     }
   }, {
+    path: '/question/register',
+    name: 'QuestionRegister',
+    component: () => import('../views/question/QuestionRegister.vue'),
+    props: true,
+    meta: {
+      navbarType: NavbarType.PAGE
+    }
+  }, {
     path: '/join',
     name: 'Join',
     component: () => import('../views/Join.vue'),

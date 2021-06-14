@@ -12,6 +12,7 @@
         hide-no-data
         hide-details
         placeholder="Search.."
+        v-model="query"
       ></v-autocomplete>
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
@@ -24,47 +25,30 @@
           Top Questions
         </v-card-title>
       </v-card>
-      <v-container fluid>
-        <div class="list-area" ref="list">
-          <v-list two-line>
-            <v-list-item-group>
-              <v-list-item
-                v-for="question in questionList"
-                :key="question.id"
-                @click="handleClickItem(question)">
-                <v-list-item-content>
 
-                  <v-chip-group>
-                    <v-chip outlined small label>{{ question.votes }} vote</v-chip>
-                    <v-chip outlined small label>answer</v-chip>
-                    <v-chip outlined small label>{{ question.views }} views</v-chip>
-                  </v-chip-group>
+      <v-btn @click="handleClickRegister">
+        버튼
+      </v-btn>
 
-                  <v-list-item-title>{{ question.title }}</v-list-item-title>
-
-                  <v-chip-group>
-                    <v-chip v-for="(tag, index) in question.tags" :key="tag+index" small label color="#E3F2FD">{{ tag }}</v-chip>
-                  </v-chip-group>
-
-                  <v-list-item-subtitle class="text-right">{{ question.registeredAt }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </div>
-      </v-container>
+      <div class="list-area" ref="list">
+        <v-list two-line>
+          <v-list-item-group v-for="question in questionList" :key="question.id">
+            <QuestionListItem :question="question" />
+          </v-list-item-group>
+        </v-list>
+      </div>
     </v-main>
   </div>
-
 </template>
 
 <script>
-
+import QuestionListItem from '../../components/question/QuestionListItem.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Question',
   components: {
+    QuestionListItem
   },
   data () {
     return {
@@ -80,7 +64,7 @@ export default {
     this.$refs.list.addEventListener('scroll', this.handleScroll)
   },
   computed: {
-    ...mapGetters('question', ['questionList'])
+    ...mapGetters('question', ['questionList']) // 여기서 네임스페이스 사용
   },
   methods: {
     ...mapActions('question', ['search']),
@@ -89,13 +73,20 @@ export default {
     },
     handleScroll (event) {
       const el = this.$refs.list
-      console.log((el.scrollHeight - el.offsetHeight), el.scrollTop)
-      if ((el.scrollHeight - el.offsetHeight) <= (el.scrollTop + 20)) {
-        console.log('last')
+
+      console.log(this.page)
+
+      if ((Math.round(el.scrollTop + el.offsetHeight)) === el.scrollHeight) {
+        this.page++
+        this.handleSearch()
       }
     },
     handleClickItem (question) {
       this.$router.push({ name: 'QuestionDetails', params: { question: question } })
+    },
+
+    handleClickRegister () {
+      this.$router.push({ name: 'QuestionRegister' })
     }
   }
 }
