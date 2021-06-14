@@ -25,12 +25,15 @@
           Top Questions
         </v-card-title>
       </v-card>
+
+      <v-btn @click="handleClickRegister">
+        버튼
+      </v-btn>
+
       <div class="list-area" ref="list">
         <v-list two-line>
-          <v-list-item-group>
-            <QuestionList :questionList="questionList" />
-            <QuestionList :questionList="questionList" />
-            <QuestionList :questionList="questionList" />
+          <v-list-item-group v-for="question in questionList" :key="question.id">
+            <QuestionListItem :question="question" />
           </v-list-item-group>
         </v-list>
       </div>
@@ -39,13 +42,13 @@
 </template>
 
 <script>
-import QuestionList from '../../components/question/QuestionList.vue'
+import QuestionListItem from '../../components/question/QuestionListItem.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Question',
   components: {
-    QuestionList
+    QuestionListItem
   },
   data () {
     return {
@@ -80,9 +83,11 @@ export default {
     },
     handleClickItem (question) {
       this.$router.push({ name: 'QuestionDetails', params: { question: question } })
-    }
+    },
 
-    // https://medium.com/@jbbpatel94/difference-between-offsetheight-clientheight-and-scrollheight-cfea5c196937
+    handleClickRegister () {
+      this.$router.push({ name: 'QuestionRegister' })
+    }
   }
 }
 </script>

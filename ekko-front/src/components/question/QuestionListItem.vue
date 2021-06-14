@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-list-item v-for="question in questionList" :key="question.id" @click="handleClickItem"> <!-- 클릭 이벤트 -->
+    <v-list-item @click="handleClickItem(question)">
       <v-list-item-content>
-        <v-chip-group> <!-- 컴포넌트 화 -->
+        <v-chip-group>
           <v-chip outlined small label>{{ question.votes }} vote</v-chip>
           <v-chip outlined small label>answer</v-chip>
           <v-chip outlined small label>{{ question.views }} views</v-chip>
@@ -33,15 +33,20 @@ export default {
   },
 
   props: { // Prop은 가능한 상세하게 정의되어야 합니다.
-    questionList: {
-      type: Array,
+    question: {
+      type: Object,
       required: true
     }
   },
 
   methods: {
-    handleClickItem () {
-      this.$router.push('/question/details') // 라우터 보낼 때 파라미터 ( 현재 선택된 하나의 객체를 보내면 됨 )
+    handleClickItem (question) {
+      this.$router.push({
+        name: 'QuestionDetails',
+        params: {
+          question
+        }
+      }) // 라우터 보낼 때 파라미터 ( 현재 선택된 하나의 객체를 보내면 됨 )
     }
   }
 }
