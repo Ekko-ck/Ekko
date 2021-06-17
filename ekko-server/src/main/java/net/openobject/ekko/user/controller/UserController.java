@@ -16,11 +16,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.openobject.ekko.common.auth.dto.JwtResponse;
 import net.openobject.ekko.common.auth.dto.JwtUserResponse;
@@ -67,36 +69,43 @@ public class UserController {
 	 * 로그인
 	 * 
 	 * @author  : SeHoon
+	 * @throws BizException 
 	 */
 	@PostMapping("/auth/signin")
-	public ApiResponse<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {
-
-		/** 1. ID/PW 인증 **/
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+	public ApiResponse<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest,HttpServletRequest request) throws BizException {
 		
-		/** 2. 토큰 생성 **/
-		// 2-1 JWT토큰생성
-		String token = jwtUtils.generateJwtToken(authentication);
-		// 2-2 JWT 리프레시 토큰생성 
-		String refreshToken = jwtUtils.generateRefreshJwtToken(token);
+		JwtResponse result = new JwtResponse();
+		try {
+			/** 1. ID/PW 인증 **/
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-		//토큰을 발행하고 같은 생명주기의 세션을 생성
-		HttpSession session = request.getSession();
-		session.setAttribute("userId", loginRequest.getUserId());
-		session.setMaxInactiveInterval(jwtExpirationMs/1000);
+			/** 2. 토큰 생성 **/
+			// 2-1 JWT토큰생성
+			String token = jwtUtils.generateJwtToken(authentication);
+			// 2-2 JWT 리프레시 토큰생성 
+			String refreshToken = jwtUtils.generateRefreshJwtToken(token);
+			
+			//토큰을 발행하고 같은 생명주기의 세션을 생성
+			HttpSession session = request.getSession();
+			session.setAttribute("userId", loginRequest.getUserId());
+			session.setMaxInactiveInterval(jwtExpirationMs/1000);
+			
+			/** 3. 사용자 상세정보 조회 **/
+			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+			List<String> roles = userDetails.getAuthorities().stream()
+					.map(item -> item.getAuthority())
+					.collect(Collectors.toList());
 		
-		/** 3. 사용자 상세정보 조회 **/
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-
-		/** 4. 응답값 set **/
-		JwtResponse result = new JwtResponse(userDetails.getUserSeq(), userDetails.getUsername(), 
-				userDetails.getUserRealName(),userDetails.getUserEmailAddr(), roles,
-				 token, refreshToken);
+			/** 4. 응답값 set **/
+			result = new JwtResponse(userDetails.getUserSeq(), userDetails.getUsername(), 
+					userDetails.getUserRealName(),userDetails.getUserEmailAddr(), roles,
+					 token, refreshToken);
+		} catch (Exception e) {
+			log.error("signin bizException ", e);
+			throw new BizException(ResultCode.SERVER_ERROR, "계정이 없거나 비밀번호가 맞지 않습니다");
+		}
 		
 		return ApiResponse.ok(result);
 	}
@@ -157,10 +166,11 @@ public class UserController {
 	 * 사용자 토큰 재발급 
 	 * 
 	 * @author SeHoon
+	 * @throws BizException 
 	 * @throws IOException 
 	 */
-	@PostMapping(value = "/auth/refreshtoken")
-	public ApiResponse<RefreshtokenResponse> refreshToken(HttpServletRequest request) {
+	@GetMapping(value = "/auth/refreshtoken")
+	public ApiResponse<RefreshtokenResponse> refreshToken(HttpServletRequest request) throws BizException {
 		
 		// 인증 헤더정보 GET
 		String headerAuth = request.getHeader("Authorization");
@@ -173,13 +183,14 @@ public class UserController {
 				if(jwtUtils.validateJwtToken(refreshToken)) {
 					newToken = jwtUtils.generateJwtToken(refreshToken);
 					newRefreshToken = jwtUtils.generateRefreshJwtToken(newToken);
-					
-				} else {
-					throw new BizException(ResultCode.SERVER_ERROR, "토큰이 유효하지 않습니다");
 				}
 			} catch (Exception e) {
-				log.error("refreshToken Exception", e);
+				log.error("refreshtoken Exception ", e);
 			}
+		}
+		
+		if(StringUtil.isNullOrEmpty(newToken)) {
+			throw new BizException(ResultCode.SERVER_ERROR, "자동로그아웃 되었습니다. 다시 로그인해주세요");
 		}
 		
 		/** 응답값 set **/
