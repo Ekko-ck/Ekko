@@ -1,5 +1,4 @@
 import API from '../../../api/login'
-import router from '../../../router'
 import User from '../../../models/User'
 
 /**
@@ -14,19 +13,19 @@ const state = {
 
 // getters
 const getters = {
-  getUser: state => {
+  user: state => {
     return state.user
   },
-  getToken: state => {
+  token: state => {
     return state.token
   },
-  getRefreshToken: state => {
+  refreshToken: state => {
     return state.refreshToken
   },
   isValidateJwtToken: state => {
     return state.isValidateJwtToken
   },
-  getJwt: state => {
+  jwt: state => {
     return state.token
   }
 }
@@ -34,51 +33,17 @@ const getters = {
 // actions
 const actions = {
   async signinUser ({ commit }, requestData) {
-    console.log('action signinUser')
     const response = await API.signin(requestData.userId, requestData.password)
     commit('signinUserSuccess', response)
+    return response
   },
   async signupUser ({ commit }, requestData) {
-    console.log('action signupUser')
-    const response = await API.signup(requestData.userId, requestData.password, requestData.userEmailAddr)
-    commit('signupUserSuccess', response)
+    return await API.signup(requestData.userId, requestData.password, requestData.userEmailAddr)
+  },
+  logoutUser ({ commit }) {
+    commit('logoutUser')
   }
-  /*
-  signinUser (context, payload) {
-    console.log('action signinUser')
-    const user = payload
-    context.commit('signinUser')
-    API.signin(user.userId, user.password)
-      .then(response => {
-        setTimeout(() => {
-          context.commit('signinUserSuccess', response)
-        }, 500)
-      })
-      .catch(error => {
-        console.log('error', error)
-      })
-  },
-  logoutUser (context) {
-    context.commit('logoutUser')
-  },
-  refreshToken (context, payload) {
-  },
-  signupUser (context, playload) {
-    const user = playload
-    context.commit('signupUser')
-    API.signup(user.userId, user.password, user.userEmailAddr).then((response) => {
-      setTimeout(() => {
-        context.commit('signupUserSuccess', response)
-      }, 500)
-    }).catch(error => {
-      console.log('error', error)
-    })
-  },
-  validateJwtToken (context, payload) {
-  }
-  */
 }
-
 // mutations
 const mutations = {
   signinUser () {
@@ -98,8 +63,6 @@ const mutations = {
 
     state.type = data.type
     localStorage.setItem('type', data.type)
-
-    router.push('/question')
   },
   logoutUser () {
     state.user = null
@@ -110,15 +73,10 @@ const mutations = {
 
     state.refreshToken = null
     localStorage.removeItem('refreshToken')
-
-    router.push('/login')
   },
   signupUser () {
   },
   signupUserSuccess (state, response) {
-    if (response != null) {
-      router.push('/login')
-    }
   },
   signUpUserFailure (state, error) {
   },

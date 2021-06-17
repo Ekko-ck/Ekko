@@ -33,13 +33,26 @@ const handleResponse = (res) => {
   }
 }
 
-const handleError = (res) => {
-  // TODO: 에러 팝업 처리
+const handleError = async (res) => {
+  const errorCode = res.status === 200 ? res.data.resultCode : res.status
+  const errorMessage = res.status === 200 ? !res.data.resultMessage ? '에러가 발생했습니다.' : res.data.resultMessage : '에러가 발생했습니다.'
+  await showErrorPopup(errorCode, errorMessage)
+  // Do something...
+}
+
+const showErrorPopup = (errorCode, errorMessage) => {
+  return new Promise((resolve) => {
+    const popup = { title: '에러', body: `${errorMessage} [${errorCode}]` }
+    popup.resolve = resolve
+    store.dispatch('popup/alert', popup)
+  })
 }
 
 export default {
-  async get (url) {
-    const res = await axios.get(url, getConfig())
+  async get (url, data) {
+    const config = getConfig()
+    config.params = data
+    const res = await axios.get(url, config)
     return handleResponse(res)
   },
   async post (url, data) {
