@@ -34,7 +34,9 @@ const getters = {
 const actions = {
   async signinUser ({ commit }, requestData) {
     const response = await API.signin(requestData.userId, requestData.password)
-    commit('signinUserSuccess', response)
+    if (response != null) {
+      commit('signinUserSuccess', response)
+    }
     return response
   },
   async signupUser ({ commit }, requestData) {
@@ -42,6 +44,13 @@ const actions = {
   },
   logoutUser ({ commit }) {
     commit('logoutUser')
+  },
+  async refreshToken ({ commit }, requestData) {
+    const response = await API.refreshToken()
+    if (response != null) {
+      commit('refreshTokenSuccess', response)
+    }
+    return response
   }
 }
 // mutations
@@ -80,7 +89,14 @@ const mutations = {
   },
   signUpUserFailure (state, error) {
   },
-  refreshToken (state, response) {
+  refreshTokenSuccess (state, response) {
+    const data = response
+
+    state.token = data.token
+    localStorage.setItem('token', data.token)
+
+    state.refreshToken = data.refreshToken
+    localStorage.setItem('refreshToken', data.refreshToken)
   },
   validateJwtToken (state, response) {
   }
