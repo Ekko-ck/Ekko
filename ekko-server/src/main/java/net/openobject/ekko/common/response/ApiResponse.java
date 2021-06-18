@@ -37,15 +37,15 @@ public class ApiResponse<T> {
 		setServerTimeToNow();
 	}
 	
-	private ApiResponse(ResultCode resultCode, T data) {
-		this.resultCode = resultCode;
-		this.data = data;
-		setServerTimeToNow();
-	}
-	
 	private ApiResponse(ResultCode resultCode, String resultMessage) {
 		this.resultCode = resultCode;
 		this.resultMessage = resultMessage;
+		setServerTimeToNow();
+	}
+	
+	private ApiResponse(ResultCode resultCode, T data) {
+		this.resultCode = resultCode;
+		this.data = data;
 		setServerTimeToNow();
 	}
 	
@@ -73,12 +73,12 @@ public class ApiResponse<T> {
 		return new ApiResponse<T>(ResultCode.SERVER_ERROR);
 	}
 	
-	public static <T> ApiResponse<T> fail(ResultCode resultCode, T data) {
-		return new ApiResponse<T>(resultCode, data);
-	}
-	
 	public static <T> ApiResponse<T> fail(ResultCode resultCode, String resultMessage) {
 		return new ApiResponse<T>(resultCode, resultMessage);
+	}
+	
+	public static <T> ApiResponse<T> fail(ResultCode resultCode, T data) {
+		return new ApiResponse<T>(resultCode, data);
 	}
 	
 	public static <T> ApiResponse<T> fail(T data) {

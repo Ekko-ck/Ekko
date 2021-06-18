@@ -34,4 +34,8 @@ public class JwtResponse {
 		this.refreshToken = refreshToken;
 	}
 
+	public JwtResponse() {
+		super();
+	}
+	
 }
