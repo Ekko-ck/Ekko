@@ -17,7 +17,7 @@ axios.interceptors.response.use((response) => {
     if (response == null) {
       router.push('Login')
     }
-    originalRequest.headers.Authorization = 'Bearer ' + store.getters['auth/jwt']
+    originalRequest.headers.Authorization = `Bearer ${store.getters['auth/jwt']}`
     return axios(originalRequest)
   }
 })

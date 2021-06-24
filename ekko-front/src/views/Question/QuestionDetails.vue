@@ -1,12 +1,20 @@
 <template>
   <div>
-    <v-main>
-      <v-card outlined>
-        <v-card-title>
-          Top Details
-        </v-card-title>
-      </v-card>
-    </v-main>
+    <div class="text-h5">
+      {{ question.title }}
+    </div>
+    <div class="pt-3 pb-3">
+      <v-chip
+        v-for="(tag, index) in question.tags"
+        :key="tag+index"
+        small
+        color="#E3F2FD"
+        class="mr-2"
+      >
+        {{ tag }}
+      </v-chip>
+    </div>
+    <hr class="division-line" />
   </div>
 </template>
 
@@ -34,5 +42,7 @@ export default {
 </script>
 
 <style scoped>
-
+.division-line {
+  border-top: 1px solid #cecece;
+}
 </style>
