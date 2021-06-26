@@ -1,25 +1,15 @@
 <template>
   <div>
     <div>
+      <!-- Title -->
       <v-row class="align-items-center">
         <v-col cols="2" class="text-center">
-          <v-btn
-            icon
-            color="blue-grey darken-1"
-            @click="handleClickVoteUp"
+          <QuestionDetailVote
+            :votes="question.votes"
+            :handle-click-up="handleClickVoteUp"
+            :handle-click-down="handleClickVoteDown"
           >
-            <v-icon>mdi-chevron-up-circle</v-icon>
-          </v-btn>
-          <br/>
-          {{ question.votes }}
-          <br/>
-          <v-btn
-            icon
-            color="blue-grey darken-1"
-            @click="handleClickVoteDown"
-          >
-            <v-icon>mdi-chevron-down-circle</v-icon>
-          </v-btn>
+          </QuestionDetailVote>
         </v-col>
         <v-col cols="10">
           <div class="text-h5">
@@ -28,7 +18,7 @@
           <div class="pt-3 pb-3">
             <v-chip
               v-for="(tag, index) in question.tags"
-              :key="tag+index"
+              :key="tag + index"
               small
               color="#E3F2FD"
               class="mr-2"
@@ -42,6 +32,7 @@
 
     <v-divider class="mt-2 mb-2"></v-divider>
 
+    <!-- Contents -->
     <div class="contents">
       {{ question.contents }}
     </div>
@@ -54,7 +45,7 @@
           <v-avatar
             color="teal"
             dark
-            size="30"
+            size="25"
           >
             <span class="white--text">{{ userNameForAvatar }}</span>
           </v-avatar>
@@ -63,30 +54,29 @@
           {{ this.user.userNm }}
         </v-col>
         <v-col cols="8" class="text-right">
-          <span class="text--secondary">{{ question.registeredAt }}</span>
+          <ui-text-date :text="question.registeredAt"></ui-text-date>
         </v-col>
       </v-row>
     </div>
 
-    <v-alert
-      dark
-      color="blue-grey darken-1"
-      class="pt-2 pb-2 mt-5 mb-2"
-    >
-      <span class="text-h6">{{ answerCount }} Answer</span>
-    </v-alert>
+    <!-- Answers -->
+    <QuestionDetailAnswers :answers="question.answers"></QuestionDetailAnswers>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import QuestionDetailVote from '../../components/question/QuestionDetailVote.vue'
+import QuestionDetailAnswers from '../../components/question/QuestionDetailAnswers.vue'
 
 export default {
-  name: 'QuestionDetails',
+  name: 'QuestionDetail',
   props: {
     question: Object
   },
   components: {
+    QuestionDetailVote,
+    QuestionDetailAnswers
   },
   data () {
     return {
@@ -99,9 +89,6 @@ export default {
     ...mapGetters('auth', ['user']),
     userNameForAvatar () {
       return this.user.userNm.substring(0, 2)
-    },
-    answerCount () {
-      return this.question.answers ? this.question.answers.length : '0'
     }
   },
   methods: {
@@ -118,11 +105,5 @@ export default {
 <style scoped>
 .contents {
   min-height: 150px;
-}
-.text-center {
-  text-align: center;
-}
-.align-items-center {
-  align-items: center;
 }
 </style>

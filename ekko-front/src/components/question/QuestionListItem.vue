@@ -42,7 +42,7 @@ export default {
   methods: {
     handleClickItem (question) {
       this.$router.push({
-        name: 'QuestionDetails',
+        name: 'QuestionDetail',
         params: {
           question
         }

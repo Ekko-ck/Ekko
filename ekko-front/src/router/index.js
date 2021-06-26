@@ -22,9 +22,9 @@ const routes = [
       navbarType: NavbarType.MAIN
     }
   }, {
-    path: '/question/details',
-    name: 'QuestionDetails',
-    component: () => import('../views/question/QuestionDetails.vue'),
+    path: '/question/detail',
+    name: 'QuestionDetail',
+    component: () => import('../views/question/QuestionDetail.vue'),
     props: true,
     meta: {
       navbarType: NavbarType.PAGE
