@@ -61,7 +61,7 @@ const mutations = {
     const data = response
     const loginUser = new User(data.id, data.email, '', data.userId, data.userNm)
 
-    state.user = JSON.stringify(loginUser)
+    state.user = loginUser
     localStorage.setItem('user', JSON.stringify(loginUser))
 
     state.token = data.token
