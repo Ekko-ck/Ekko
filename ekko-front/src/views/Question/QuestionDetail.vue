@@ -39,35 +39,22 @@
 
     <v-divider class="mt-2 mb-2"></v-divider>
 
-    <div>
-      <v-row class="align-items-center">
-        <v-col cols="1">
-          <v-avatar
-            color="teal"
-            dark
-            size="25"
-          >
-            <span class="white--text">{{ userNameForAvatar }}</span>
-          </v-avatar>
-        </v-col>
-        <v-col cols="3" class="pl-4">
-          {{ this.user.userNm }}
-        </v-col>
-        <v-col cols="8" class="text-right">
-          <ui-text-date :text="question.registeredAt"></ui-text-date>
-        </v-col>
-      </v-row>
-    </div>
+    <QuestionDetailAvatar
+      :name="question.userName"
+      avatar-color="teal"
+      :text-date="question.registeredAt"
+    >
+    </QuestionDetailAvatar>
 
-    <!-- Answers -->
     <QuestionDetailAnswers :answers="question.answers"></QuestionDetailAnswers>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import QuestionDetailVote from '../../components/question/QuestionDetailVote.vue'
-import QuestionDetailAnswers from '../../components/question/QuestionDetailAnswers.vue'
+import QuestionDetailVote from '@/components/question/QuestionDetailVote.vue'
+import QuestionDetailAnswers from '@/components/question/QuestionDetailAnswers.vue'
+import QuestionDetailAvatar from '@/components/question/QuestionDetailAvatar.vue'
 
 export default {
   name: 'QuestionDetail',
@@ -76,7 +63,8 @@ export default {
   },
   components: {
     QuestionDetailVote,
-    QuestionDetailAnswers
+    QuestionDetailAnswers,
+    QuestionDetailAvatar
   },
   data () {
     return {
@@ -86,10 +74,7 @@ export default {
     console.log(this.question)
   },
   computed: {
-    ...mapGetters('auth', ['user']),
-    userNameForAvatar () {
-      return this.user.userNm.substring(0, 2)
-    }
+    ...mapGetters('auth', ['user'])
   },
   methods: {
     handleClickVoteUp () {
