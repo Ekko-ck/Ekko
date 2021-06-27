@@ -12,52 +12,53 @@
       v-for="(answer, index) in answers"
       :key="answer.id"
       outlined
-      class="pa-2 mb-2">
-        <v-row>
-          <v-col cols="2" class="text-center px-0">
-            <QuestionDetailVote
-              :votes="answer.votes"
-              :handle-click-up="handleClickAnswerVoteUp"
-              :handle-click-down="handleClickAnswerVoteDown"
-            >
-            </QuestionDetailVote>
-          </v-col>
-          <v-col cols="1" class="px-0">
-            <v-divider vertical></v-divider>
-          </v-col>
-          <v-col cols="9" class="ml-n6">
-            {{ answer.contents }}
-          </v-col>
-        </v-row>
+      class="pa-2 mb-2"
+    >
+      <v-row>
+        <v-col cols="2" class="text-center px-0">
+          <QuestionDetailVote
+            :votes="answer.votes"
+            :handle-click-up="handleClickAnswerVoteUp"
+            :handle-click-down="handleClickAnswerVoteDown"
+          >
+          </QuestionDetailVote>
+        </v-col>
+        <v-col cols="1" class="px-0">
+          <v-divider vertical></v-divider>
+        </v-col>
+        <v-col cols="9" class="ml-n6">
+          {{ answer.contents }}
+        </v-col>
+      </v-row>
 
-        <v-divider class="mt-2 mb-2"></v-divider>
+      <v-divider class="mt-2 mb-2"></v-divider>
 
-        <v-row class="align-items-center">
-          <v-col cols="1">
-            <v-avatar
-              :color="avatarColor(index)"
-              dark
-              size="25"
-            >
-              <span class="white--text">{{ userNameForAvatar(answer.userName) }}</span>
-            </v-avatar>
-          </v-col>
-          <v-col cols="3" class="pl-4">
-            {{ answer.userName }}
-          </v-col>
-          <v-col cols="8" class="text-right">
-            <ui-text-date :text="answer.registeredAt"></ui-text-date>
-          </v-col>
-        </v-row>
+      <QuestionDetailAvatar
+        :name="answer.userName"
+        :avatar-color="avatarColor(index)"
+        :text-date="answer.registeredAt"
+      >
+      </QuestionDetailAvatar>
+
+      <v-divider class="mt-2 mb-2"></v-divider>
+
+      <QuestionDetailComments :comments="answer.comments"></QuestionDetailComments>
     </v-card>
   </div>
 </template>
 
 <script>
 import QuestionDetailVote from './QuestionDetailVote.vue'
+import QuestionDetailAvatar from './QuestionDetailAvatar.vue'
+import QuestionDetailComments from '@/components/question/QuestionDetailComments.vue'
 
 export default {
   name: 'QuestionDetailAnswers',
+  components: {
+    QuestionDetailVote,
+    QuestionDetailAvatar,
+    QuestionDetailComments
+  },
   props: {
     answers: {
       type: Array,
@@ -77,9 +78,6 @@ export default {
       }
     }
   },
-  components: {
-    QuestionDetailVote
-  },
   created () {
     console.log(this.answers)
   },
@@ -89,9 +87,6 @@ export default {
     }
   },
   methods: {
-    userNameForAvatar (userName) {
-      return userName.substring(0, 2)
-    },
     avatarColor (index) {
       const value = index % 7
       return this.avatarColorMap[value]

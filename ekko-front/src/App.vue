@@ -31,4 +31,13 @@ export default {
 .align-items-center {
   align-items: center;
 }
+.font-size-07-rem {
+  font-size: 0.7rem;
+}
+.font-size-08-rem {
+  font-size: 0.8rem;
+}
+.font-size-09-rem {
+  font-size: 0.9rem;
+}
 </style>
