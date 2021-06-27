@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import QuestionDetailVote from './QuestionDetailVote.vue'
-import QuestionDetailAvatar from './QuestionDetailAvatar.vue'
+import QuestionDetailVote from '@/components/question/QuestionDetailVote.vue'
+import QuestionDetailAvatar from '@/components/question/QuestionDetailAvatar.vue'
 import QuestionDetailComments from '@/components/question/QuestionDetailComments.vue'
 
 export default {
