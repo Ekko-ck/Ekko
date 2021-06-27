@@ -14,31 +14,35 @@
       outlined
       class="pa-2 mb-2"
     >
-        <v-row>
-          <v-col cols="2" class="text-center px-0">
-            <QuestionDetailVote
-              :votes="answer.votes"
-              :handle-click-up="handleClickAnswerVoteUp"
-              :handle-click-down="handleClickAnswerVoteDown"
-            >
-            </QuestionDetailVote>
-          </v-col>
-          <v-col cols="1" class="px-0">
-            <v-divider vertical></v-divider>
-          </v-col>
-          <v-col cols="9" class="ml-n6">
-            {{ answer.contents }}
-          </v-col>
-        </v-row>
+      <v-row>
+        <v-col cols="2" class="text-center px-0">
+          <QuestionDetailVote
+            :votes="answer.votes"
+            :handle-click-up="handleClickAnswerVoteUp"
+            :handle-click-down="handleClickAnswerVoteDown"
+          >
+          </QuestionDetailVote>
+        </v-col>
+        <v-col cols="1" class="px-0">
+          <v-divider vertical></v-divider>
+        </v-col>
+        <v-col cols="9" class="ml-n6">
+          {{ answer.contents }}
+        </v-col>
+      </v-row>
 
-        <v-divider class="mt-2 mb-2"></v-divider>
+      <v-divider class="mt-2 mb-2"></v-divider>
 
-        <QuestionDetailAvatar
-          :name="answer.userName"
-          :avatar-color="avatarColor(index)"
-          :text-date="answer.registeredAt"
-        >
-        </QuestionDetailAvatar>
+      <QuestionDetailAvatar
+        :name="answer.userName"
+        :avatar-color="avatarColor(index)"
+        :text-date="answer.registeredAt"
+      >
+      </QuestionDetailAvatar>
+
+      <v-divider class="mt-2 mb-2"></v-divider>
+
+      <QuestionDetailComments :comments="answer.comments"></QuestionDetailComments>
     </v-card>
   </div>
 </template>
@@ -46,9 +50,15 @@
 <script>
 import QuestionDetailVote from './QuestionDetailVote.vue'
 import QuestionDetailAvatar from './QuestionDetailAvatar.vue'
+import QuestionDetailComments from '@/components/question/QuestionDetailComments.vue'
 
 export default {
   name: 'QuestionDetailAnswers',
+  components: {
+    QuestionDetailVote,
+    QuestionDetailAvatar,
+    QuestionDetailComments
+  },
   props: {
     answers: {
       type: Array,
@@ -67,10 +77,6 @@ export default {
         6: 'purple darken-3'
       }
     }
-  },
-  components: {
-    QuestionDetailVote,
-    QuestionDetailAvatar
   },
   created () {
     console.log(this.answers)

@@ -46,6 +46,10 @@
     >
     </QuestionDetailAvatar>
 
+    <v-divider class="mt-2 mb-2"></v-divider>
+
+    <QuestionDetailComments :comments="question.comments"></QuestionDetailComments>
+
     <QuestionDetailAnswers :answers="question.answers"></QuestionDetailAnswers>
   </div>
 </template>
@@ -55,16 +59,18 @@ import { mapGetters } from 'vuex'
 import QuestionDetailVote from '@/components/question/QuestionDetailVote.vue'
 import QuestionDetailAnswers from '@/components/question/QuestionDetailAnswers.vue'
 import QuestionDetailAvatar from '@/components/question/QuestionDetailAvatar.vue'
+import QuestionDetailComments from '@/components/question/QuestionDetailComments.vue'
 
 export default {
   name: 'QuestionDetail',
-  props: {
-    question: Object
-  },
   components: {
     QuestionDetailVote,
     QuestionDetailAnswers,
-    QuestionDetailAvatar
+    QuestionDetailAvatar,
+    QuestionDetailComments
+  },
+  props: {
+    question: Object
   },
   data () {
     return {
