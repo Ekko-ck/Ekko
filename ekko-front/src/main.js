@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import axios from './plugins/axios'
 import '@/plugins/global-components'
 import popupMixin from './mixins/popup'
+import '@/assets/css/global.css'
 
 Vue.config.productionTip = false
 
