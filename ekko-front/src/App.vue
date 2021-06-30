@@ -25,13 +25,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0;
-}
-.text-center {
-  text-align: center;
-}
-.align-items-center {
-  align-items: center;
-}
 </style>
