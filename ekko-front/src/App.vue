@@ -3,7 +3,7 @@
     <Popup />
     <Navbar />
     <v-main>
-      <v-container fluid>
+      <v-container fluid class="container">
         <router-view />
       </v-container>
     </v-main>
@@ -24,11 +24,5 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.text-center {
-  text-align: center;
-}
-.align-items-center {
-  align-items: center;
-}
+<style lang="scss" scoped>
 </style>

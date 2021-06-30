@@ -1,44 +1,23 @@
 <template>
   <div>
-    <v-app-bar
-          dark
-          color="#1E88E5"
-        >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title>Stack Overflow</v-toolbar-title>
-      <v-spacer></v-spacer>
+    <v-card outlined class="px-4 d-flex justify-space-between align-center">
 
-      <v-autocomplete
-        hide-no-data
-        hide-details
-        placeholder="Search.."
-        v-model="query"
-      ></v-autocomplete>
-      <v-btn icon>
+      <div class="d-flex justify-space-between align-center">
+        <v-text-field class="mr-1"></v-text-field>
         <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <v-card outlined>
-        <v-card-title>
-          Top Questions
-        </v-card-title>
-      </v-card>
-
-      <v-btn @click="handleClickRegister">
-        버튼
-      </v-btn>
-
-      <div class="list-area" ref="list">
-        <v-list two-line>
-          <v-list-item-group v-for="question in questionList" :key="question.id">
-            <QuestionListItem :question="question" />
-          </v-list-item-group>
-        </v-list>
-        <infinite-loading spinner="circles" @infinite="handleInfiniteScroll"></infinite-loading>
       </div>
-    </v-main>
+
+      <v-btn @click="handleClickRegister">질문하기</v-btn>
+    </v-card>
+
+    <div class="list-area" ref="list">
+      <v-list two-line>
+        <v-list-item-group v-for="question in questionList" :key="question.id">
+          <QuestionListItem :question="question" />
+        </v-list-item-group>
+      </v-list>
+      <infinite-loading spinner="circles" @infinite="handleInfiniteScroll"></infinite-loading>
+    </div>
   </div>
 </template>
 
