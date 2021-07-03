@@ -16,12 +16,16 @@ export default {
   },
   async removeAnswer () {
   },
-  async regiserCommentToQuestion () {
+  async regiserCommentToQuestion (requestData) {
+    return await http.post(`/api/question/${requestData.questionId}/comment`, requestData)
   },
-  async removeCommentFromQuestion () {
+  async removeCommentFromQuestion (requestData) {
+    return await http.delete(`/api/question/${requestData.questionId}/comment/${requestData.commentId}`)
   },
-  async regiserCommentToAnswer () {
+  async regiserCommentToAnswer (requestData) {
+    return await http.post(`/api/question/${requestData.questionId}/answer/${requestData.answerId}/comment`, requestData)
   },
-  async removeCommentFromAnswer () {
+  async removeCommentFromAnswer (requestData) {
+    return await http.delete(`/api/question/${requestData.questionId}/answer/${requestData.answerId}/comment/${requestData.commentId}`)
   }
 }

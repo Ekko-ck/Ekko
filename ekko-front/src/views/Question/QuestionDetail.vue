@@ -48,9 +48,9 @@
 
     <v-divider class="mt-2 mb-2"></v-divider>
 
-    <QuestionDetailComments :comments="question.comments"></QuestionDetailComments>
+    <QuestionDetailComments :question-id="question.id" :comments="question.comments"></QuestionDetailComments>
 
-    <QuestionDetailAnswers :answers="question.answers"></QuestionDetailAnswers>
+    <QuestionDetailAnswers :question-id="question.id" :answers="question.answers"></QuestionDetailAnswers>
   </div>
 </template>
 
