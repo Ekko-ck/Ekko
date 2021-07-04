@@ -3,7 +3,7 @@ package net.openobject.ekko.qna.dto;
 import lombok.Data;
 
 @Data
-public class CommentDto {
+public class CommentDto implements Modifiable {
 	
 	private String id;
     private String userId;
@@ -13,5 +13,12 @@ public class CommentDto {
 	private String registeredBy;
 	private String modifiedAt;
 	private String 	modifiedBy;
+	
+	private Boolean isMine;
+	
+	@Override
+	public void setIsMine(String userId) {
+		this.isMine = this.userId.equals(userId);
+	}
 	
 }
