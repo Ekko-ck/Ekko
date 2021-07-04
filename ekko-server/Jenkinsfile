@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-    	stage('ShutdownES') {
-    		steps {
-    			sudo systemctl stop elasticsearch
-    		}
-    	}
         stage('Build') {
             steps {
             	echo 'Building..'
@@ -27,10 +22,5 @@ pipeline {
                 sh 'docker run -d -e SPRING_PROFILES_ACTIVE=dev -e TZ=Asia/Seoul -p 8310:8310 -v /data/logs/ekko-server:/data/logs/ekko-server --name ekko-server app/ekko-server'
             }
         }
-        stage('StartupES') {
-    		steps {
-    			sudo systemctl start elasticsearch
-    		}
-    	}
     }
 }
