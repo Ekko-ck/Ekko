@@ -37,7 +37,9 @@ public class CommentService {
 		Comment comment = commentBuilder.buildEntityFromRegistrationAndUser(commentRegistrationReuqest, user);
 		question.addComment(comment);
 		questionEsClient.update(question);
-		return commentBuilder.buildDto(comment);
+		CommentDto dto = commentBuilder.buildDto(comment);
+		dto.setIsMine(user.getUserId());
+		return dto;
 	}
 	
 	public void removeCommentFromQuestion(String questionId, String commentId, JwtUserResponse user) throws Exception {
@@ -76,7 +78,9 @@ public class CommentService {
 		
 		question.setAnswers(answers);
 		questionEsClient.update(question);
-		return commentBuilder.buildDto(comment);
+		CommentDto dto = commentBuilder.buildDto(comment);
+		dto.setIsMine(user.getUserId());
+		return dto;
 	}
 	
 	public void removeCommentFromAnswer(String questionId, String answerId, String commentId, JwtUserResponse user) throws Exception {

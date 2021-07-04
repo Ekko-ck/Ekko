@@ -12,6 +12,16 @@
           <v-icon small class="mx-1">mdi-minus</v-icon>
           <span class="font-weight-medium mr-2 font-size-09-rem">{{ comment.userName }}</span>
           <UiTextDate :text="comment.registeredAt"></UiTextDate>
+          <v-btn
+            v-if="comment.isMine"
+            class="ml-1"
+            icon
+            color="red"
+            x-small
+            @click="handleRemoveComment(comment.id)"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
           <v-divider class="mt-2"></v-divider>
         </v-col>
       </v-row>
@@ -105,7 +115,7 @@ export default {
     handleClickCommentInputShow () {
       this.showCommentInput = !this.showCommentInput
     },
-    handleRegisterComment () {
+    async handleRegisterComment () {
       const contents = this.commentContents.trim()
       if (contents === '') {
         this.commentContentsError = true
@@ -120,16 +130,28 @@ export default {
       }
 
       if (this.isQuestion) {
-        this.regiserCommentToQuestion(requestData)
+        await this.regiserCommentToQuestion(requestData)
       } else {
-        this.regiserCommentToAnswer(requestData)
+        await this.regiserCommentToAnswer(requestData)
       }
 
       this.commentContents = ''
       this.showCommentInput = false
       this.commentRegisterLoading = false
     },
-    handleRemoveComment (commentId) {
+    async handleRemoveComment (commentId) {
+      if (await this.$popup.confirm({ body: '삭제하시겠습니까?' })) {
+        const requestData = {
+          commentId,
+          questionId: this.questionId,
+          answerId: this.answerId
+        }
+        if (this.isQuestion) {
+          await this.removeCommentFromQuestion(requestData)
+        } else {
+          await this.removeCommentFromAnswer(requestData)
+        }
+      }
     }
   },
   watch: {
