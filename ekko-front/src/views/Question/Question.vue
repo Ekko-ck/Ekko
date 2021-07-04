@@ -75,11 +75,12 @@ export default {
     async handleInfiniteScroll ($state) {
       await this.search({ query: this.query, page: this.page })
       this.page++
-      const questionListResponse = store.getters['question/questionListResponse']
-      if (questionListResponse.length) {
-        $state.loaded()
-      } else {
+      const isLastQuestionList = store.getters['question/isLastQuestionList']
+      console.log('isLastQuestionList ' + isLastQuestionList)
+      if (isLastQuestionList) {
         $state.complete()
+      } else {
+        $state.loaded()
       }
     }
 

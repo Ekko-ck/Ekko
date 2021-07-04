@@ -42,7 +42,7 @@
 
       <v-divider class="mt-2 mb-2"></v-divider>
 
-      <QuestionDetailComments :comments="answer.comments"></QuestionDetailComments>
+      <QuestionDetailComments :question-id="questionId" :answer-id="answer.id" :comments="answer.comments"></QuestionDetailComments>
     </v-card>
   </div>
 </template>
@@ -60,6 +60,10 @@ export default {
     QuestionDetailComments
   },
   props: {
+    questionId: {
+      type: String,
+      required: true
+    },
     answers: {
       type: Array,
       requried: true
@@ -79,7 +83,7 @@ export default {
     }
   },
   created () {
-    console.log(this.answers)
+    console.log(this.questionId)
   },
   computed: {
     answerCount () {
