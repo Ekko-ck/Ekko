@@ -16,6 +16,7 @@
           <QuestionListItem :question="question" />
         </v-list-item-group>
       </v-list>
+      <infinite-loading spinner="circles" @infinite="handleInfiniteScroll"></infinite-loading>
     </div>
   </div>
 </template>
@@ -23,11 +24,14 @@
 <script>
 import QuestionListItem from '../../components/question/QuestionListItem.vue'
 import { mapGetters, mapActions } from 'vuex'
+import InfiniteLoading from 'vue-infinite-loading'
+import store from '../../store'
 
 export default {
   name: 'Question',
   components: {
-    QuestionListItem
+    QuestionListItem,
+    InfiniteLoading
   },
   data () {
     return {
@@ -36,11 +40,11 @@ export default {
     }
   },
   created () {
-    this.search({ query: this.query, page: this.page })
+    // this.search({ query: this.query, page: this.page })
   },
   mounted () {
     // this.handleDebouncedScroll = this._.debounce(this.handleScroll, 100)
-    this.$refs.list.addEventListener('scroll', this.handleScroll)
+    // this.$refs.list.addEventListener('scroll', this.handleScroll)
   },
   computed: {
     ...mapGetters('question', ['questionList']) // 여기서 네임스페이스 사용
@@ -66,7 +70,19 @@ export default {
 
     handleClickRegister () {
       this.$router.push({ name: 'QuestionRegister' })
+    },
+
+    async handleInfiniteScroll ($state) {
+      await this.search({ query: this.query, page: this.page })
+      this.page++
+      const isLastQuestion = store.getters['question/isLastQuestion']
+      if (isLastQuestion) {
+        $state.complete()
+      } else {
+        $state.loaded()
+      }
     }
+
   }
 }
 </script>
