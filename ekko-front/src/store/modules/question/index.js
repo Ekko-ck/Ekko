@@ -2,15 +2,15 @@ import API from '../../../api/question.js'
 
 const state = {
   questionList: [],
-  isLastQuestionList: false,
+  isLastQuestion: false,
   page: 0
 }
 const getters = {
   questionList (state) {
     return state.questionList
   },
-  isLastQuestionList (state) {
-    return state.isLastQuestionList
+  isLastQuestion (state) {
+    return state.isLastQuestion
   }
 }
 const mutations = {
@@ -20,14 +20,11 @@ const mutations = {
   setPage (state, page) {
     state.page = page
   },
-  setIsLastQuestionList (state, questionList) {
-    console.log('setIsLastQuestionList ' + questionList)
+  setIsLastQuestion (state, questionList) {
     if (questionList.length) {
-      console.log('questionList.length ' + state.isLastQuestionList)
-      state.isLastQuestionList = false
+      state.isLastQuestion = false
     } else {
-      console.log('isLastQuestionList ' + state.isLastQuestionList)
-      state.isLastQuestionList = true
+      state.isLastQuestion = true
     }
   },
   addCommentToQuestion (state, data) {
@@ -60,7 +57,7 @@ const actions = {
     const questionList = await API.search(requestData)
     commit('setQuestionList', questionList)
     commit('setPage', requestData.page)
-    commit('setIsLastQuestionList', questionList)
+    commit('setIsLastQuestion', questionList)
   },
   async regiserCommentToQuestion ({ commit }, requestData) {
     const comment = await API.regiserCommentToQuestion(requestData)
