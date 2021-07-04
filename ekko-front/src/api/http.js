@@ -11,8 +11,8 @@ axios.interceptors.response.use((response) => {
 }, async (error) => {
   const originalRequest = error.config
   // http 401을 응답받으면 리프레시토큰으로 토큰을 재발급하고, request를 재요청
-  if (error.response.status === 401 && !originalRequest._retry) {
-    originalRequest._retry = true
+  if (error.response.status === 401 && !originalRequest.isRetry) {
+    originalRequest.isRetry = true // 재요청여부. 기존요청을 다시 요청했을때, 401이 발생하면 무한 리쿼스트가 발생하므로 무한 재요청안하게끔 추가
     const response = await store.dispatch('auth/refreshToken')
     if (response == null) {
       router.push('Login')
