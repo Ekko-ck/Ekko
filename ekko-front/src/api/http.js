@@ -23,15 +23,21 @@ axios.interceptors.response.use((response) => {
 })
 
 const getAuthorization = (url) => {
-  if (process.env.VUE_APP_MODE && process.env.VUE_APP_MODE === 'local') {
-    return `Bearer ${process.env.VUE_APP_JWT}`
-  } else {
-    // refreshtoken을 받을때는 refreshtoken을 헤더에 set
-    if (url === '/api/user/auth/refreshtoken') {
-      return `Bearer ${store.getters['auth/refreshToken']}`
-    }
-    return `Bearer ${store.getters['auth/jwt']}`
+  // if (process.env.VUE_APP_MODE && process.env.VUE_APP_MODE === 'local') {
+  //   return `Bearer ${process.env.VUE_APP_JWT}`
+  // } else {
+  //   // refreshtoken을 받을때는 refreshtoken을 헤더에 set
+  //   if (url === '/api/user/auth/refreshtoken') {
+  //     return `Bearer ${store.getters['auth/refreshToken']}`
+  //   }
+  //   return `Bearer ${store.getters['auth/jwt']}`
+  // }
+
+  // refreshtoken을 받을때는 refreshtoken을 헤더에 set
+  if (url === '/api/user/auth/refreshtoken') {
+    return `Bearer ${store.getters['auth/refreshToken']}`
   }
+  return `Bearer ${store.getters['auth/jwt']}`
 }
 
 const getConfig = (contentType, url) => {
@@ -101,7 +107,7 @@ export default {
   },
   async delete (url, isShowPopup) {
     try {
-      const res = await axios.delete(url)
+      const res = await axios.delete(url, getConfig(CONTENT_TYPE_JSON, url))
       return handleResponse(res, isShowPopup)
     } catch (err) {
       return handleResponse(err, isShowPopup)
