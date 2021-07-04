@@ -15,14 +15,71 @@ const mutations = {
   },
   setPage (state, page) {
     state.page = page
+  },
+  addCommentToQuestion (state, data) {
+    const question = state.questionList.find(question => question.id === data.questionId)
+    if (!question.comments) {
+      question.comments = []
+    }
+    question.comments.push(data.comment)
+  },
+  removeCommentFromQuestion (state, data) {
+    const question = state.questionList.find(question => question.id === data.questionId)
+    question.comments = question.comments.filter(comment => comment.id !== data.commentId)
+  },
+  addCommentToAnswer (state, data) {
+    const question = state.questionList.find(question => question.id === data.questionId)
+    const answer = question.answers.find(answer => answer.id === data.answerId)
+    if (!answer.comments) {
+      answer.comments = []
+    }
+    answer.comments.push(data.comment)
+  },
+  removeCommentFromAnswer (state, data) {
+    const question = state.questionList.find(question => question.id === data.questionId)
+    const answer = question.answers.find(answer => answer.id === data.answerId)
+    answer.comments = answer.comments.filter(comment => comment.id !== data.commentId)
   }
 }
 const actions = {
   async search ({ commit, state }, requestData = {}) {
-    console.log(state)
     const questionList = await API.search(requestData)
     commit('setQuestionList', questionList)
     commit('setPage', requestData.page)
+  },
+  async regiserCommentToQuestion ({ commit }, requestData) {
+    const comment = await API.regiserCommentToQuestion(requestData)
+    const data = {
+      comment,
+      questionId: requestData.questionId
+    }
+    commit('addCommentToQuestion', data)
+  },
+  async removeCommentFromQuestion ({ commit }, requestData) {
+    await API.removeCommentFromQuestion(requestData)
+    const data = {
+      commentId: requestData.commentId,
+      questionId: requestData.questionId
+    }
+    commit('removeCommentFromQuestion', data)
+  },
+  async regiserCommentToAnswer ({ commit }, requestData) {
+    const comment = await API.regiserCommentToAnswer(requestData)
+    const data = {
+      comment,
+      questionId: requestData.questionId,
+      answerId: requestData.answerId
+    }
+    commit('addCommentToAnswer', data)
+  },
+  async removeCommentFromAnswer ({ commit }, requestData) {
+    await API.removeCommentFromAnswer(requestData)
+    const data = {
+      commentId: requestData.commentId,
+      questionId: requestData.questionId,
+      answerId: requestData.answerId
+    }
+    commit('removeCommentFromAnswer', data)
   }
 }
 

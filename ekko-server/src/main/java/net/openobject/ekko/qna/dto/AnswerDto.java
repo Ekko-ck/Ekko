@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class AnswerDto {
+public class AnswerDto implements Modifiable {
 	
 	private String questionId;
 	private String id;
@@ -20,4 +20,11 @@ public class AnswerDto {
 	private String registeredBy;
 	private String modifiedAt;
 	private String 	modifiedBy;
+	
+	private Boolean isMine;
+	
+	@Override
+	public void setIsMine(String userId) {
+		this.isMine = this.userId.equals(userId);
+	}
 }
