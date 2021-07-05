@@ -15,13 +15,12 @@
         </div>
 
         <div class="px-4">
-          <editor
-            :initialValue="editorText"
-            :options="editorOptions"
-            height="300px"
-            initialEditType="wysiwyg"
-            previewStyle="vertical"
-          />
+          <v-textarea
+            counter
+            label="질문을 입력하세요."
+            :rules="rules"
+            :value="value"
+          ></v-textarea>
         </div>
 
         <v-card-subtitle class="pb-0">
@@ -36,21 +35,15 @@
 </template>
 
 <script>
-import '@toast-ui/editor/dist/toastui-editor.css'
-import { Editor } from '@toast-ui/vue-editor'
 
 export default {
   name: 'QuestionRegister',
   components: {
-    editor: Editor
+
   },
 
   data () {
     return {
-      editorText: '질문을 입력하세요.',
-      editorOptions: {
-        hideModeSwitch: true
-      }
     }
   }
 
