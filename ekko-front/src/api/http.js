@@ -11,8 +11,8 @@ axios.interceptors.response.use((response) => {
 }, async (error) => {
   const originalRequest = error.config
   // http 401을 응답받으면 리프레시토큰으로 토큰을 재발급하고, request를 재요청
-  if (error.response.status === 401 && !originalRequest._retry) {
-    originalRequest._retry = true
+  if (error.response.status === 401 && !originalRequest.isRetry) {
+    originalRequest.isRetry = true // 재요청여부. 기존요청을 다시 요청했을때, 401이 발생하면 무한 리쿼스트가 발생하므로 무한 재요청안하게끔 추가
     const response = await store.dispatch('auth/refreshToken')
     if (response == null) {
       router.push('Login')
@@ -23,15 +23,11 @@ axios.interceptors.response.use((response) => {
 })
 
 const getAuthorization = (url) => {
-  if (process.env.VUE_APP_MODE && process.env.VUE_APP_MODE === 'local') {
-    return `Bearer ${process.env.VUE_APP_JWT}`
-  } else {
-    // refreshtoken을 받을때는 refreshtoken을 헤더에 set
-    if (url === '/api/user/auth/refreshtoken') {
-      return `Bearer ${store.getters['auth/refreshToken']}`
-    }
-    return `Bearer ${store.getters['auth/jwt']}`
+  // refreshtoken을 받을때는 refreshtoken을 헤더에 set
+  if (url === '/api/user/auth/refreshtoken') {
+    return `Bearer ${store.getters['auth/refreshToken']}`
   }
+  return `Bearer ${store.getters['auth/jwt']}`
 }
 
 const getConfig = (contentType, url) => {
@@ -101,7 +97,7 @@ export default {
   },
   async delete (url, isShowPopup) {
     try {
-      const res = await axios.delete(url)
+      const res = await axios.delete(url, getConfig(CONTENT_TYPE_JSON, url))
       return handleResponse(res, isShowPopup)
     } catch (err) {
       return handleResponse(err, isShowPopup)
