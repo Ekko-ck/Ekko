@@ -10,43 +10,62 @@
           <v-card-subtitle>
             제목
           </v-card-subtitle>
-          <v-text-field class="pr-4"></v-text-field>
-
+          <v-text-field class="pr-4" v-model="form.title"></v-text-field>
         </div>
 
         <div class="px-4">
           <v-textarea
             counter
             label="질문을 입력하세요."
-            :rules="rules"
-            :value="value"
+            v-model="form.contents"
           ></v-textarea>
         </div>
 
         <v-card-subtitle class="pb-0">
           Tags
         </v-card-subtitle>
-        <v-text-field class="px-4" label="e.g. (swift jquery wordpress)"></v-text-field>
+        <v-text-field
+          class="px-4"
+          label="e.g. (swift jquery wordpress)"
+          v-model="form.tagsText"
+        >
+        </v-text-field>
       </v-card>
 
-      <v-btn small color="success">Review your question</v-btn>
+      <v-btn small color="success" @click="handleRegister">Review your question</v-btn>
     </v-container>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'QuestionRegister',
   components: {
-
   },
-
   data () {
     return {
+      form: {
+        title: '',
+        contents: '',
+        tagsText: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions('question', ['registerQuestion']),
+    async handleRegister () {
+      const tags = this.form.tagsText.split(',')
+      const requestData = {
+        title: this.form.title,
+        contents: this.form.contents,
+        tags: tags.map(tag => tag.trim())
+      }
+      await this.registerQuestion(requestData)
+      this.$router.push({ name: 'Question' })
     }
   }
-
 }
 
 </script>

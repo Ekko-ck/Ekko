@@ -59,6 +59,9 @@ const actions = {
     commit('setPage', requestData.page)
     commit('setIsLastQuestion', questionList)
   },
+  async registerQuestion ({ commit }, requestData) {
+    return await API.registerQuestion(requestData)
+  },
   async regiserCommentToQuestion ({ commit }, requestData) {
     const comment = await API.regiserCommentToQuestion(requestData)
     const data = {
