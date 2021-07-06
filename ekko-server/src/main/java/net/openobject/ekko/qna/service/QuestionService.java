@@ -28,14 +28,14 @@ public class QuestionService {
 	@Autowired
 	private QnaValidationHelper qnaValidationHelper;
 	
-	public List<QuestionDto> searchQuestion(Pageable pageable, String query) {
+	public List<QuestionDto> searchQuestion(Pageable pageable, String query, JwtUserResponse user) {
 		List<Question> questionList = null;
 		if (StringUtils.isEmpty(query)) {
 			questionList = questionEsClient.findAll(pageable);
 		} else {
 			questionList = questionEsClient.search(pageable, query);
 		}
-		return questionBuilder.buildDtoList(questionList);
+		return questionBuilder.buildDtoList(questionList, user);
 	}
 	
 	public QuestionDto registerQuestion(QuestionRegistrationReuqest questionRegistrationReuqest, JwtUserResponse user) {
