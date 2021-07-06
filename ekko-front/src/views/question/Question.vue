@@ -16,7 +16,11 @@
           <QuestionListItem :question="question" />
         </v-list-item-group>
       </v-list>
-      <infinite-loading spinner="circles" @infinite="handleInfiniteScroll"></infinite-loading>
+      <infinite-loading
+        ref="infiniteLoading"
+        spinner="circles"
+        throttle-limit="100"
+        @infinite="handleInfiniteScroll"></infinite-loading>
     </div>
   </div>
 </template>
@@ -40,11 +44,16 @@ export default {
     }
   },
   created () {
-    // this.search({ query: this.query, page: this.page })
   },
   mounted () {
-    // this.handleDebouncedScroll = this._.debounce(this.handleScroll, 100)
-    // this.$refs.list.addEventListener('scroll', this.handleScroll)
+    // if (this.$refs.infiniteLoading) {
+    //   this.$refs.infiniteLoading.stateChanger.reset()
+    // }
+  },
+  beforeDestroy () {
+    if (this.$refs.infiniteLoading) {
+      this.$refs.infiniteLoading.stateChanger.reset()
+    }
   },
   computed: {
     ...mapGetters('question', ['questionList']) // 여기서 네임스페이스 사용
@@ -73,6 +82,7 @@ export default {
     },
 
     async handleInfiniteScroll ($state) {
+      console.log('handleInfiniteScroll', this.page)
       await this.search({ query: this.query, page: this.page })
       this.page++
       const isLastQuestion = store.getters['question/isLastQuestion']
@@ -82,7 +92,6 @@ export default {
         $state.loaded()
       }
     }
-
   }
 }
 </script>
