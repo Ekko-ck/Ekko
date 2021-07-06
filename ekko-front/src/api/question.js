@@ -4,7 +4,8 @@ export default {
   async search (requestData) {
     return await http.get('/api/question/search', requestData)
   },
-  async registerQuestion () {
+  async registerQuestion (requestData) {
+    return await http.post('/api/question', requestData)
   },
   async modifyQuestion () {
   },
