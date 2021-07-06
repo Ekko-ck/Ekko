@@ -1,5 +1,5 @@
 <template>
-   <div class="login-form">
+   <div class="join-form">
       <v-layout align-center justify-center>
          <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.login-form {
+.join-form {
   height: calc(100vh - 90px);
   display: flex;
   justify-content: center;
