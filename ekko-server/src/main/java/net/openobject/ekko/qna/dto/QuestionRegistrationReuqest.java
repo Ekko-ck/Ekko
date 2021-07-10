@@ -11,7 +11,7 @@ import lombok.Data;
 public class QuestionRegistrationReuqest {
 	
 	@ApiModelProperty(value = "제목", required = true)
-	private String title;
+	private String id;
 	@ApiModelProperty(value = "내용", required = true)
 	private String contents;
 	@ApiModelProperty(value = "태그")
