@@ -2,6 +2,8 @@ package net.openobject.ekko.qna.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -11,12 +13,18 @@ import net.openobject.ekko.common.auth.dto.JwtUserResponse;
 import net.openobject.ekko.common.exception.BizException;
 import net.openobject.ekko.common.response.ResultCode;
 import net.openobject.ekko.qna.builder.QuestionBuilder;
+import net.openobject.ekko.qna.builder.VoteBuilder;
 import net.openobject.ekko.qna.document.Question;
 import net.openobject.ekko.qna.dto.QuestionDto;
 import net.openobject.ekko.qna.dto.QuestionModificationReuqest;
 import net.openobject.ekko.qna.dto.QuestionRegistrationReuqest;
+import net.openobject.ekko.qna.dto.VoteDto;
+import net.openobject.ekko.qna.dto.VoteRequest;
+import net.openobject.ekko.qna.entity.Vote;
+import net.openobject.ekko.qna.entity.VoteSourceType;
 import net.openobject.ekko.qna.helper.QnaValidationHelper;
 import net.openobject.ekko.qna.repository.QuestionEsClient;
+import net.openobject.ekko.qna.repository.VoteRepository;
 
 @Service
 public class QuestionService {
@@ -27,6 +35,10 @@ public class QuestionService {
 	private QuestionBuilder questionBuilder;
 	@Autowired
 	private QnaValidationHelper qnaValidationHelper;
+	@Autowired
+	private VoteRepository voteRepository;
+	@Autowired
+	private VoteBuilder voteBuilder;
 	
 	public List<QuestionDto> searchQuestion(Pageable pageable, String query, JwtUserResponse user) {
 		List<Question> questionList = null;
@@ -67,6 +79,14 @@ public class QuestionService {
 		if (!question.isSameUser(user.getUserId())) {
 			throw new BizException(ResultCode.FORBIDDEN);
 		}
+	}
+	
+	@Transactional
+	public VoteDto registerVote(VoteRequest voteRequest, JwtUserResponse user) {
+		Vote vote = voteBuilder.buildEntityFromRegistrationAndUser(voteRequest, user);
+		vote.setSourceType(VoteSourceType.QUESTION);
+		Vote saved = voteRepository.save(vote);
+		return voteBuilder.buildDto(saved);
 	}
 	
 }

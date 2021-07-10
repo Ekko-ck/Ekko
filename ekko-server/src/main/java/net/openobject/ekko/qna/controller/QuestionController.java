@@ -25,6 +25,9 @@ import net.openobject.ekko.common.security.jwt.JwtUtils;
 import net.openobject.ekko.qna.dto.QuestionDto;
 import net.openobject.ekko.qna.dto.QuestionModificationReuqest;
 import net.openobject.ekko.qna.dto.QuestionRegistrationReuqest;
+import net.openobject.ekko.qna.dto.VoteDto;
+import net.openobject.ekko.qna.dto.VoteRequest;
+import net.openobject.ekko.qna.entity.VoteSourceType;
 import net.openobject.ekko.qna.service.QuestionService;
 
 @Api(tags = "QnA > 질문")
@@ -73,6 +76,15 @@ public class QuestionController {
 		JwtUserResponse user = jwtUtils.getLoginUserEntity();
 		questionService.removeQuestion(questionId, user);
 		return ApiResponse.ok();
+	}
+	
+	@ApiOperation(value = "QnA > 질문 투표")
+	@PostMapping
+	public ApiResponse<VoteDto> vote(@RequestBody VoteRequest voteRequest) {
+		log.info("voteRequest: {}", voteRequest);
+		JwtUserResponse user = jwtUtils.getLoginUserEntity();
+		voteRequest.setSourceType(VoteSourceType.QUESTION);
+		return ApiResponse.ok(questionService.registerVote(voteRequest, user));
 	}
 	
 }
